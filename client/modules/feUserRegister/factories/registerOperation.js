@@ -7,7 +7,7 @@ feUserRegister.factory('registerOperation', function($http) {
     	$http({
             method : "JSON",
             data : newUser[0],
-            url : "http://angularapp.local/api/modules/person/register.php",
+            url : "http://angularapp.nickosys.com/api/modules/person/register.php",
             headers: {'Content-Type' : 'application/json'}
         })
         .then(function success(response) {
@@ -17,11 +17,11 @@ feUserRegister.factory('registerOperation', function($http) {
             }
             else{
                 alert("Something went wrong. Please check your internet connction and try again. su");
-                window.location = "http://angularapp.local/signup";
+                window.location = "http://angularapp.nickosys.com/signup";
             }
         }, function error(response) {
             alert("Something went wrong. Please check your internet connction and try again. fa");
-            window.location = "http://angularapp.local/signup";
+            window.location = "http://angularapp.nickosys.com/signup";
         });
     }
 
