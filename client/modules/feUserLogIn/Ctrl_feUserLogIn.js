@@ -1,14 +1,25 @@
 var feUserLogIn = angular.module('Mod_feUserLogIn', ['ui.router']);
 
-feUserLogIn.controller('Ctrl_feUserLogIn', function($scope,$location /* $http, $location, $state, $stateParams, feUserRegister_Factory, $parse */){
+feUserLogIn.controller('Ctrl_feUserLogIn', function($scope,$location, loginAuthOperation /* $http, $location, $state, $stateParams, feUserRegister_Factory, $parse */){
 	
 	var ctrl = this;
 
 	ctrl.email = "";
 	ctrl.password = "";
+	ctrl.spam_protection = "";
+	ctrl.status = "";
 
 	ctrl.login = function(){
-		if(localStorage.feUser){
+
+		var loginCredentials = [{
+			username : ctrl.email,
+			password : ctrl.password,
+			spam_protection : ctrl.spam_protection
+		}];
+
+		loginAuthOperation.loginAuth(loginCredentials, ctrl);
+
+		/*if(localStorage.feUser){
 			var feUsers = localStorage.feUser;
 			feUsers = "[" + feUsers + "]";
 			feUsers = JSON.parse(feUsers);
@@ -28,6 +39,6 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function($scope,$location /* $http, $
 		}
 		else{
 			alert("User is not registered");
-		}
+		}*/
 	}
 });

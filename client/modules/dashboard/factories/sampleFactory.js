@@ -4,7 +4,7 @@ sampleModule.factory('sampleFactory', function() {
 
     factory._Fn = function() {
 		
-	}
+	} 
 
     return factory;
 });

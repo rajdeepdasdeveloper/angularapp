@@ -4,7 +4,7 @@ class Person{
     // Database connection and table name
     private $conn;
     private $table_name = "fe_users";
-    private $salt_characters = "!@#$%^&*()_+}{?1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private $salt_characters = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
     private $papper_characters = "!@#$%^&*()";
     private $password_hash;
  
@@ -14,6 +14,7 @@ class Person{
     public $first_name;
     public $last_name;
     public $create_date;
+    public $login_date;
  
     // Constructor with $db as database connection
     public function __construct($db){
@@ -22,7 +23,8 @@ class Person{
 
     // if Username already Exists
     function usernameCheck(){
-        $query = "SELECT `username` FROM `fe_users` WHERE `username` = ?";
+        $query = "SELECT `username` FROM " . $this->table_name . " WHERE `username` = ?";
+        $query = str_replace("\'","",$query);
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(1, $this->username);
         $stmt->execute();
@@ -42,7 +44,7 @@ class Person{
                 " . $this->table_name . "
             SET
                 username=:username, password=:password, first_name=:first_name, last_name=:last_name, create_date=:create_date, salt_value=:salt_value";
-     
+        $query = str_replace("\'","",$query);
         // prepare query
         $stmt = $this->conn->prepare($query);
      
@@ -54,7 +56,8 @@ class Person{
         $this->create_date=htmlspecialchars(strip_tags($this->create_date));
         
         // Salt Papper BCRYPT Hashing
-        $this->password_hash = str_shuffle($this->salt_characters) . $this->password . $this->papper_characters;
+        $random_salt = substr(str_shuffle($this->salt_characters), 0, 15);
+        $this->password_hash = $random_salt . $this->password . "!@#$%^&*()";
         $this->password_hash = password_hash($this->password_hash, PASSWORD_BCRYPT, array('cost' => 11));
 
         // bind values
@@ -63,7 +66,7 @@ class Person{
         $stmt->bindParam(":first_name", $this->first_name);
         $stmt->bindParam(":last_name", $this->last_name);
         $stmt->bindParam(":create_date", $this->create_date);
-        $stmt->bindParam(":salt_value", str_shuffle($this->salt_characters));
+        $stmt->bindParam(":salt_value", $random_salt);
      
         // execute query
         if($stmt->execute()){
@@ -74,6 +77,19 @@ class Person{
         }
     }
 
-}
+    function loginAuth(){
+        $query = "SELECT * FROM " . $this->table_name . " WHERE `username` = ?" ; 
+        $query = str_replace("\'","",$query);
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(1, $this->username);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            return $stmt;
+        }
+        else{
+            return false;
+        }
+    }
+}   
 
 ?>

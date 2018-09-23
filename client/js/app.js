@@ -1,15 +1,20 @@
+var auth = false;
 /* Core Module */
 var mainApp = angular.module('coreAppModule', 
 	[
-	'ui.router', 
+	'ui.router',
+	'angular-loading-bar',
 	'Mod_feUserLogIn',
-	'Mod_feUserRegister'
+	'Mod_feUserRegister',
+	'Mod_header',
+	'Mod_dashboard'
 	]);
 
 /* Core Controller */
-mainApp.controller('coreAppController', function(){
+mainApp.controller('coreAppController', function(userSession, $http){
 	var coreAppCtrl = this;
 	coreAppCtrl.baseUrl = "http://angularapp.local/";
+
 });
 
 /* App Configuration */
@@ -26,11 +31,35 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 		controller: "Ctrl_feUserLogIn",
 		controllerAs: "CtrlAs_feUserLogIn",
 		resolve: {
-			auth : function($location, MyService){
-				if(MyService.method1()){
-					$location.url('/dashboard');
+			'check' : function($location, userSession, $http, $state){
+				if(localStorage.getItem("username") =="" || localStorage.getItem("token") ==""){
+					$location.url('/login');
 				}
-				//$location.url('/login');
+				else{
+					var sessionCredentials = [{
+						username : localStorage.getItem("username"),
+						token : localStorage.getItem("token")
+					}];
+					$http({
+				        method : "JSON",
+				        data : sessionCredentials[0],
+				        url : "http://angularapp.local/api/modules/sessionManagement/sessionCheck.php",
+				        headers: {'Content-Type' : 'application/json'}
+				    })
+				    .then(function success(response) {
+				        if(response.data){
+				            if(response.data.message == "1"){
+				               	$state.go('dashboard');
+				       		}
+				       		else if(response.data.message == "0"){
+				       			$location.url('/login');
+				       		}
+				        }
+				    }, 
+				    function error(response) {
+				       $location.url('/login');
+				    });
+				}
 			}
 		}
     })
@@ -40,25 +69,83 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 		controller: "Ctrl_feUserRegister",
 		controllerAs: "CtrlAs_feUserRegister",
 		resolve: {
-			auth : function($location, MyService){
-				if(MyService.method1()){
-					$location.url('/dashboard');
+			'check' : function($location, userSession, $http, $state){
+				if(localStorage.getItem("username") =="" || localStorage.getItem("token") ==""){
+					$location.url('/signup');
 				}
-				//$location.url('/login');
+				else{
+					var sessionCredentials = [{
+						username : localStorage.getItem("username"),
+						token : localStorage.getItem("token")
+					}];
+					$http({
+				        method : "JSON",
+				        data : sessionCredentials[0],
+				        url : "http://angularapp.local/api/modules/sessionManagement/sessionCheck.php",
+				        headers: {'Content-Type' : 'application/json'}
+				    })
+				    .then(function success(response) {
+				        if(response.data){
+				            if(response.data.message == "1"){
+				               	//$location.url('/dashboard');.
+				               	$state.go('dashboard');
+				       		}
+				       		else if(response.data.message == "0"){
+				       			$location.url('/signup');
+				       		}
+				        }
+				    }, 
+				    function error(response) {
+				       $location.url('/login');
+				    });
+				}
 			}
 		}
     })
     .state("dashboard", {
         url: "/dashboard",
-        /*templateUrl: "client/views/feUserRegister.html",
-		controller: "Ctrl_feUserRegister",
-		controllerAs: "CtrlAs_feUserRegister",*/
+        templateUrl: "client/views/view_dashboard.html",
+		controller: "Ctrl_dashboard",
+		controllerAs: "CtrlAs_dashboard",
 		resolve: {
-			auth : function($location){
-				if(!localStorage.currentLoggedInUser){
-					$location.url('/login');
+			'check' : function($location, userSession, $http, $timeout, $state){
+				if(localStorage.getItem("username") =="" && localStorage.getItem("token") ==""){
+					alert("sss");
+				 	$location.url('/login');
+			 	}
+			 	else{
+					var sessionCredentials = [{
+						username : localStorage.getItem("username"),
+						token : localStorage.getItem("token")
+					}];
+					$http({
+				        method : "JSON",
+				        data : sessionCredentials[0],
+				        url : "http://angularapp.local/api/modules/sessionManagement/sessionCheck.php",
+				        headers: {'Content-Type' : 'application/json'}
+				    })
+				    .then(function success(response) {
+				    	//alert("success");
+				        if(response.data){
+				            if(response.data.message == "0"){
+				             	$timeout(function(){
+				             		$location.url('/login');
+				             	},1);
+				       		}
+				            else if(response.data.message == "1"){
+				            	$timeout(function(){
+				             		$location.url('/dashboard');
+				             	},1);
+				       			
+				            }
+				        }
+				    }, 
+				    function error(response) {
+				       	$timeout(function(){
+				             $location.url('/login');
+				        },1);
+				    });
 				}
-				//$location.url('/login');
 			}
 		}
     });
@@ -68,27 +155,49 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 
 });
 
-
-mainApp.factory('MyService', function() {
+/* SESSION CHECKING */
+mainApp.factory('userSession', function($http) {
 	
-	var factory = {}; 
-
-	factory.method1 = function() {
-			if(localStorage.currentLoggedInUser){
-				return true;
-			}
+	var factory = {}
+	factory.exists = function() {
+		var status = false;
+		if(localStorage.getItem("username") && localStorage.getItem("token")){
+			var sessionCredentials = [{
+				username : localStorage.getItem("username"),
+				token : localStorage.getItem("token")
+			}];
+			$http({
+		        method : "JSON",
+		        data : sessionCredentials[0],
+		        url : "http://angularapp.local/api/modules/sessionManagement/sessionCheck.php",
+		        headers: {'Content-Type' : 'application/json'}
+		    })
+		    .then(function success(response) {
+		        if(response.data){
+		            if(response.data.message == "1"){
+		            	status = true;
+		       		}
+		            else if(response.data.message == "0"){
+		            	status = false;
+		            }
+		        }
+		    }, 
+		    function error(response) {
+		    	status = false;
+		    });	
 		}
-
-	factory.method2 = function() {
-			//..
+		else{
+			status = false;
 		}
+		return status;
+	}
 
 	return factory;
 });
 	
 /* APPLICATION RUN (Main Method) */
 
-mainApp.run(function($rootScope, $location, $state, /*feUserLogIn_Factory*/){
+mainApp.run(function($rootScope, $location, $state){
 
 	// Permission to page access 
 	var routePermission = [];
@@ -97,5 +206,7 @@ mainApp.run(function($rootScope, $location, $state, /*feUserLogIn_Factory*/){
 	$rootScope.$on("$stateChangeStart", function(){
 		
 	});
+
+
 	
 });

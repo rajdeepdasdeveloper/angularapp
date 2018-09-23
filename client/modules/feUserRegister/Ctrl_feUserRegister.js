@@ -9,7 +9,7 @@ feUserRegister.controller('Ctrl_feUserRegister', function($location, registerOpe
 	ctrl.email = "";
 	ctrl.password = "";
 	ctrl.spam_protection = "";
-	ctrl.status = ""
+	ctrl.status = "";
 
 	var first_Name = ctrl.first_name;
 	var last_Name = ctrl.last_name;
