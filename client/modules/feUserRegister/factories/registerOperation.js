@@ -7,7 +7,7 @@ feUserRegister.factory('registerOperation', function($http) {
     	$http({
             method : "JSON",
             data : newUser[0],
-            url : "http://angularapp.local/api/modules/person/register.php",
+            url : "http://angularapp.nickosys.com/api/modules/person/register.php",
             headers: {'Content-Type' : 'application/json'}
         })
         .then(function success(response) {

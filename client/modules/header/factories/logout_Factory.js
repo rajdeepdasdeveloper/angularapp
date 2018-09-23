@@ -12,7 +12,7 @@ header.factory('logout_Factory', function($http, $location) {
 		$http({
 	        method : "JSON",
 	        data : sessionCredentials[0],
-	        url : "http://angularapp.local/api/modules/sessionManagement/sessionDestroy.php",
+	        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionDestroy.php",
 	        headers: {'Content-Type' : 'application/json'}
 	    })
 	    .then(function success(response) {

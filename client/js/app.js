@@ -13,7 +13,7 @@ var mainApp = angular.module('coreAppModule',
 /* Core Controller */
 mainApp.controller('coreAppController', function(userSession, $http){
 	var coreAppCtrl = this;
-	coreAppCtrl.baseUrl = "http://angularapp.local/";
+	coreAppCtrl.baseUrl = "http://angularapp.nickosys.com/";
 
 });
 
@@ -43,7 +43,7 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 					$http({
 				        method : "JSON",
 				        data : sessionCredentials[0],
-				        url : "http://angularapp.local/api/modules/sessionManagement/sessionCheck.php",
+				        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
 				        headers: {'Content-Type' : 'application/json'}
 				    })
 				    .then(function success(response) {
@@ -81,7 +81,7 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 					$http({
 				        method : "JSON",
 				        data : sessionCredentials[0],
-				        url : "http://angularapp.local/api/modules/sessionManagement/sessionCheck.php",
+				        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
 				        headers: {'Content-Type' : 'application/json'}
 				    })
 				    .then(function success(response) {
@@ -121,7 +121,7 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 					$http({
 				        method : "JSON",
 				        data : sessionCredentials[0],
-				        url : "http://angularapp.local/api/modules/sessionManagement/sessionCheck.php",
+				        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
 				        headers: {'Content-Type' : 'application/json'}
 				    })
 				    .then(function success(response) {
@@ -169,7 +169,7 @@ mainApp.factory('userSession', function($http) {
 			$http({
 		        method : "JSON",
 		        data : sessionCredentials[0],
-		        url : "http://angularapp.local/api/modules/sessionManagement/sessionCheck.php",
+		        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
 		        headers: {'Content-Type' : 'application/json'}
 		    })
 		    .then(function success(response) {

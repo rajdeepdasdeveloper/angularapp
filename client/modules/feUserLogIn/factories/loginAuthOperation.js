@@ -6,7 +6,7 @@ feUserLogIn.factory('loginAuthOperation', function($http, $location, $timeout) {
 		$http({
             method : "JSON",
             data : loginCredentials[0],
-            url : "http://angularapp.local/api/modules/person/login.php",
+            url : "http://angularapp.nickosys.com/api/modules/person/login.php",
             headers: {'Content-Type' : 'application/json'}
         })
         .then(function success(response) {
