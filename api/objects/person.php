@@ -43,7 +43,7 @@ class Person{
         $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                username=:username, password=:password, first_name=:first_name, last_name=:last_name, create_date=:create_date, salt_value=:salt_value";
+                username=:username, password=:password, first_name=:first_name, last_name=:last_name, create_date=:create_date, salt_value=:salt_value, user_status=:user_status";
         $query = str_replace("\'","",$query);
         // prepare query
         $stmt = $this->conn->prepare($query);
@@ -60,6 +60,10 @@ class Person{
         $this->password_hash = $random_salt . $this->password . "!@#$%^&*()";
         $this->password_hash = password_hash($this->password_hash, PASSWORD_BCRYPT, array('cost' => 11));
 
+        // All user status is ACTVIE for now
+
+         $user_status = "1";
+
         // bind values
         $stmt->bindParam(":username", $this->username);
         $stmt->bindParam(":password", $this->password_hash);
@@ -67,6 +71,7 @@ class Person{
         $stmt->bindParam(":last_name", $this->last_name);
         $stmt->bindParam(":create_date", $this->create_date);
         $stmt->bindParam(":salt_value", $random_salt);
+        $stmt->bindParam(":user_status", $user_status);
      
         // execute query
         if($stmt->execute()){
@@ -78,6 +83,20 @@ class Person{
     }
 
     function loginAuth(){
+        $query = "SELECT * FROM " . $this->table_name . " WHERE `username` = ?" ; 
+        $query = str_replace("\'","",$query);
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(1, $this->username);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            return $stmt;
+        }
+        else{
+            return false;
+        }
+    }
+
+    function getBasicData(){
         $query = "SELECT * FROM " . $this->table_name . " WHERE `username` = ?" ; 
         $query = str_replace("\'","",$query);
         $stmt = $this->conn->prepare($query);

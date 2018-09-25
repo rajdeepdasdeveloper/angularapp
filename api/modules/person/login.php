@@ -75,7 +75,7 @@ if(!empty($data->username) && !empty($data->password) && empty($data->spam_prote
             echo '}';
             die();
         }
-        else if($person_details['username'] == $person->username && password_Decrypt($person->password, $person_details['salt_value'] ,"!@#$%^&*()", $person_details['password'])){ // Success
+        else if($person_details['username'] == $person->username && password_Decrypt($person->password, $person_details['salt_value'], "!@#$%^&*()", $person_details['password'])){ // Success
 
             $token = substr(str_shuffle("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_") , 0, 32);
 

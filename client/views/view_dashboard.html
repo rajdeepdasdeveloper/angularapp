@@ -1,6 +1,7 @@
-<div id="dashboard">
+<div ng-if="CtrlAs_dashboard.show" id="dashboard">
 	<div class="dashboard-wrapper">
 		<header-Directive></header-Directive>
 		<h1>Dash Board</h1>
+		<div><strong>Welcome</strong> {{ CtrlAs_dashboard.basicUserInfo.firstname }} {{ CtrlAs_dashboard.basicUserInfo.lastname }}</div>
 	</div>
 </div>

@@ -42,11 +42,11 @@ feUserLogIn.factory('loginAuthOperation', function($http, $location, $timeout) {
             }
             else{
                 alert("Something went wrong. Please check your internet connction and try again. su");
-               // window.location = "http://angularapp.nickosys.com/signup";
+                window.location = "http://angularapp.nickosys.com/signup";
             }
         }, function error(response) {
             alert("Something went wrong. Please check your internet connction and try again. fa");
-            //window.location = "http://angularapp.nickosys.com/signup";
+            window.location = "http://angularapp.nickosys.com/signup";
         });
 	}
 
