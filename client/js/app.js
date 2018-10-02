@@ -1,4 +1,3 @@
-var auth = false;
 /* Core Module */
 var mainApp = angular.module('coreAppModule', 
 	[
@@ -6,34 +5,36 @@ var mainApp = angular.module('coreAppModule',
 	'angular-loading-bar',
 	'Mod_feUserLogIn',
 	'Mod_feUserRegister',
+	'Mod_accountSettings',
 	'Mod_header',
 	'Mod_dashboard'
-	]);
+	]
+);
 
 /* Core Controller */
-mainApp.controller('coreAppController', function(userSession, $http){
+mainApp.controller('coreAppController', function($scope, $rootScope, $http){
 	var coreAppCtrl = this;
-	coreAppCtrl.baseUrl = "http://angularapp.nickosys.com/";
-
+	$rootScope.baseUrl = "http://angularapp.nickosys.com/";
+	$rootScope.apiURL = "http://angularapp.nickosys.com/api/modules/";
 });
 
 /* App Configuration */
 mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
         
 	// Default
-	$urlRouterProvider.otherwise('/login');
+	$urlRouterProvider.otherwise('/sign-in');
 	
 	// Page Tree
     $stateProvider
-	.state("feUserlogIn", {
-        url: "/login",
+	.state("login", {
+        url: "/sign-in",
         templateUrl: "client/views/feUserLogIn.html",
 		controller: "Ctrl_feUserLogIn",
 		controllerAs: "CtrlAs_feUserLogIn",
 		resolve: {
-			'check' : function($location, userSession, $http, $state){
+			'check' : function($rootScope, $location, $http, $state){
 				if(localStorage.getItem("username") =="" || localStorage.getItem("token") ==""){
-					$location.url('/login');
+					$location.url('/sign-in');
 				}
 				else{
 					var sessionCredentials = [{
@@ -43,7 +44,7 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 					$http({
 				        method : "JSON",
 				        data : sessionCredentials[0],
-				        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
+				        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
 				        headers: {'Content-Type' : 'application/json'}
 				    })
 				    .then(function success(response) {
@@ -52,26 +53,26 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 				               	$state.go('dashboard');
 				       		}
 				       		else if(response.data.message == "0"){
-				       			$location.url('/login');
+				       			$location.url('/sign-in');
 				       		}
 				        }
 				    }, 
 				    function error(response) {
-				       $location.url('/login');
+				       $location.url('/sign-in');
 				    });
 				}
 			}
 		}
     })
-    .state("feUserRegister", {
-        url: "/signup",
+    .state("registration", {
+        url: "/sign-up",
         templateUrl: "client/views/feUserRegister.html",
 		controller: "Ctrl_feUserRegister",
 		controllerAs: "CtrlAs_feUserRegister",
 		resolve: {
-			'check' : function($location, userSession, $http, $state){
+			'check' : function($rootScope, $location, userSession, $http, $state){
 				if(localStorage.getItem("username") =="" || localStorage.getItem("token") ==""){
-					$location.url('/signup');
+					$location.url('/sign-up');
 				}
 				else{
 					var sessionCredentials = [{
@@ -81,22 +82,21 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 					$http({
 				        method : "JSON",
 				        data : sessionCredentials[0],
-				        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
+				        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
 				        headers: {'Content-Type' : 'application/json'}
 				    })
 				    .then(function success(response) {
 				        if(response.data){
 				            if(response.data.message == "1"){
-				               	//$location.url('/dashboard');.
 				               	$state.go('dashboard');
 				       		}
 				       		else if(response.data.message == "0"){
-				       			$location.url('/signup');
+				       			$location.url('/sign-up');
 				       		}
 				        }
 				    }, 
 				    function error(response) {
-				       $location.url('/login');
+				       $location.url('/sign-up');
 				    });
 				}
 			}
@@ -108,10 +108,9 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 		controller: "Ctrl_dashboard",
 		controllerAs: "CtrlAs_dashboard",
 		resolve: {
-			'check' : function($location, userSession, $http, $timeout, $state){
+			'check' : function($rootScope, $location, userSession, $http, $timeout, $state){
 				if(localStorage.getItem("username") =="" && localStorage.getItem("token") ==""){
-					alert("sss");
-				 	$location.url('/login');
+				 	$location.url('/sign-in');
 			 	}
 			 	else{
 					var sessionCredentials = [{
@@ -121,15 +120,14 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 					$http({
 				        method : "JSON",
 				        data : sessionCredentials[0],
-				        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
+				        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
 				        headers: {'Content-Type' : 'application/json'}
 				    })
 				    .then(function success(response) {
-				    	//alert("success");
 				        if(response.data){
 				            if(response.data.message == "0"){
 				             	$timeout(function(){
-				             		$location.url('/login');
+				             		$location.url('/sign-in');
 				             	},1);
 				       		}
 				            else if(response.data.message == "1"){
@@ -142,7 +140,51 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 				    }, 
 				    function error(response) {
 				       	$timeout(function(){
-				             $location.url('/login');
+				             $location.url('/sign-in');
+				        },1);
+				    });
+				}
+			}
+		}
+    })
+    .state("accountSettings", {
+        url: "/account-settings",
+        templateUrl: "client/views/view_accountSettings.html",
+		controller: "Ctrl_accountSettings",
+		controllerAs: "CtrlAs_accountSettings",
+		resolve: {
+			'check' : function($rootScope, $location, userSession, $http, $timeout, $state){
+				if(localStorage.getItem("username") =="" && localStorage.getItem("token") ==""){
+				 	$location.url('/sign-in');
+			 	}
+			 	else{
+					var sessionCredentials = [{
+						username : localStorage.getItem("username"),
+						token : localStorage.getItem("token")
+					}];
+					$http({
+				        method : "JSON",
+				        data : sessionCredentials[0],
+				        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
+				        headers: {'Content-Type' : 'application/json'}
+				    })
+				    .then(function success(response) {
+				        if(response.data){
+				            if(response.data.message == "0"){
+				             	$timeout(function(){
+				             		$location.url('/sign-in');
+				             	},1);
+				       		}
+				            else if(response.data.message == "1"){
+				            	$timeout(function(){
+				             		$location.url('/account-settings');
+				             	},1);
+				            }
+				        }
+				    }, 
+				    function error(response) {
+				       	$timeout(function(){
+				             $location.url('/sign-in');
 				        },1);
 				    });
 				}
@@ -156,7 +198,7 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 });
 
 /* SESSION CHECKING */
-mainApp.factory('userSession', function($http) {
+mainApp.factory('userSession', function($http, $rootScope) {
 	
 	var factory = {}
 	factory.exists = function() {
@@ -169,7 +211,7 @@ mainApp.factory('userSession', function($http) {
 			$http({
 		        method : "JSON",
 		        data : sessionCredentials[0],
-		        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
+		        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
 		        headers: {'Content-Type' : 'application/json'}
 		    })
 		    .then(function success(response) {

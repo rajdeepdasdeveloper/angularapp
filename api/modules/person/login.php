@@ -28,7 +28,7 @@ if(!empty($data->username) && !empty($data->password) && empty($data->spam_prote
     // set product property values
     $person->username = $data->username;
     $person->password = $data->password;
-    $person->login_date = time();
+    $person->last_login = time();
 
     $stmt = $person->loginAuth();
     if(!$person->usernameCheck()){
@@ -90,6 +90,9 @@ if(!empty($data->username) && !empty($data->password) && empty($data->spam_prote
                         echo '"token": "' . $_SESSION["token"] . '"';
                     echo '}';
                 echo '}';
+
+                // SET LAST LOGIN
+                 $person->setLastLogin();
             }
             else{
                 echo '{';

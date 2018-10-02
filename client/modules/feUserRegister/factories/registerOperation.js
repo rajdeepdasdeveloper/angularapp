@@ -1,4 +1,4 @@
-feUserRegister.factory('registerOperation', function($http) {
+feUserRegister.factory('registerOperation', function($rootScope, $http) {
 
     var factory = {}; 
 
@@ -7,7 +7,7 @@ feUserRegister.factory('registerOperation', function($http) {
     	$http({
             method : "JSON",
             data : newUser[0],
-            url : "http://angularapp.nickosys.com/api/modules/person/register.php",
+            url : $rootScope.apiURL + "person/register.php",
             headers: {'Content-Type' : 'application/json'}
         })
         .then(function success(response) {
@@ -16,12 +16,12 @@ feUserRegister.factory('registerOperation', function($http) {
                 //alert(response.data.message);
             }
             else{
-                alert("Something went wrong. Please check your internet connction and try again. su");
-                //window.location = "http://angularapp.local/signup";
+                alert("Something went wrong. Please check your internet connction and try again");
+                window.location = $rootScope.baseUrl + "sign-in";
             }
         }, function error(response) {
-            alert("Something went wrong. Please check your internet connction and try again. fa");
-            //window.location = "http://angularapp.local/signup";
+            alert("Something went wrong. Please check your internet connction and try again");
+            window.location = $rootScope.baseUrl + "sign-in";
         });
     }
 

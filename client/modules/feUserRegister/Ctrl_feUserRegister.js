@@ -1,9 +1,10 @@
 var feUserRegister = angular.module('Mod_feUserRegister', ['ui.router']);
 
-feUserRegister.controller('Ctrl_feUserRegister', function($location, registerOperation, $http, $state /*, $stateParams, feUserRegister_Factory, $parse */){
+feUserRegister.controller('Ctrl_feUserRegister', function($rootScope, $location, registerOperation, $http, $state /*, $stateParams, feUserRegister_Factory, $parse */){
 	
 	var ctrl = this;
 
+	// {#--- SESSION AUTHENTICATION 
 	ctrl.show = false;
 	var sessionCredentials = [{
 		username : localStorage.getItem("username"),
@@ -12,7 +13,7 @@ feUserRegister.controller('Ctrl_feUserRegister', function($location, registerOpe
 	$http({
         method : "JSON",
         data : sessionCredentials[0],
-        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionCheck.php",
+        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
         headers: {'Content-Type' : 'application/json'}
     })
     .then(function success(response) {
@@ -28,6 +29,7 @@ feUserRegister.controller('Ctrl_feUserRegister', function($location, registerOpe
     function error(response) {
        ctrl.show = true;
     });
+    // SESSION AUTHENTICATION ---#}
 
 	ctrl.first_name = "";
 	ctrl.last_name = "";

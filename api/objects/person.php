@@ -14,7 +14,7 @@ class Person{
     public $first_name;
     public $last_name;
     public $create_date;
-    public $login_date;
+    public $last_login;
  
     // Constructor with $db as database connection
     public function __construct($db){
@@ -82,6 +82,7 @@ class Person{
         }
     }
 
+    // LOG IN
     function loginAuth(){
         $query = "SELECT * FROM " . $this->table_name . " WHERE `username` = ?" ; 
         $query = str_replace("\'","",$query);
@@ -96,8 +97,84 @@ class Person{
         }
     }
 
+    // UPDATE BASIC SETTINGS (firstname and lastname)
+    function updateBasicSettings(){
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                first_name = :first_name, last_name = :last_name
+            WHERE
+                username = :username";
+        $query = str_replace("\'","",$query);
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+     
+        // sanitize
+        $this->first_name=htmlspecialchars(strip_tags($this->first_name));
+        $this->last_name=htmlspecialchars(strip_tags($this->last_name));
+        $this->username=htmlspecialchars(strip_tags($this->username));
+        
+        // bind values
+        $stmt->bindParam(":first_name", $this->first_name);
+        $stmt->bindParam(":last_name", $this->last_name);
+        $stmt->bindParam(":username", $this->username);
+     
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    function setLastLogin(){
+        // query to insert record
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                last_login = :last_login 
+            WHERE
+                username = :username";
+        $query = str_replace("\'","",$query);
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+     
+        // sanitize
+        $this->last_login=htmlspecialchars(strip_tags($this->last_login));
+        $this->username=htmlspecialchars(strip_tags($this->username));
+        
+        // bind values
+        $stmt->bindParam(":last_login", $this->last_login);
+        $stmt->bindParam(":username", $this->username);
+     
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // GET BASIC DATA 
     function getBasicData(){
         $query = "SELECT * FROM " . $this->table_name . " WHERE `username` = ?" ; 
+        $query = str_replace("\'","",$query);
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(1, $this->username);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            return $stmt;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // GET SALT VALUE AND PASSWORD
+    function getAuthValue(){
+        $query = "SELECT `salt_value`, `password` FROM " . $this->table_name . " WHERE `username` = ?" ; 
         $query = str_replace("\'","",$query);
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(1, $this->username);

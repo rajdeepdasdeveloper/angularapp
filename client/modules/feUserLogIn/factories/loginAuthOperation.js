@@ -1,4 +1,4 @@
-feUserLogIn.factory('loginAuthOperation', function($http, $location, $timeout) {
+feUserLogIn.factory('loginAuthOperation', function($rootScope, $http, $location, $timeout) {
 
     var factory = {}; 
 
@@ -6,7 +6,7 @@ feUserLogIn.factory('loginAuthOperation', function($http, $location, $timeout) {
 		$http({
             method : "JSON",
             data : loginCredentials[0],
-            url : "http://angularapp.nickosys.com/api/modules/person/login.php",
+            url : $rootScope.apiURL + "person/login.php",
             headers: {'Content-Type' : 'application/json'}
         })
         .then(function success(response) {
@@ -42,11 +42,11 @@ feUserLogIn.factory('loginAuthOperation', function($http, $location, $timeout) {
             }
             else{
                 alert("Something went wrong. Please check your internet connction and try again. su");
-                window.location = "http://angularapp.nickosys.com/signup";
+                window.location = "http://angularapp.nickosys.com/sign-in";
             }
         }, function error(response) {
             alert("Something went wrong. Please check your internet connction and try again. fa");
-            window.location = "http://angularapp.nickosys.com/signup";
+            window.location = "http://angularapp.nickosys.com/sign-in";
         });
 	}
 

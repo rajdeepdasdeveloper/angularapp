@@ -1,0 +1,30 @@
+<div class="form-group">
+		<p id="email" ng-bind="CtrlAs_accountSettings.accountInfo.username"></p>
+		<p ng-show="accountSettingsForm.email.$invalid && !accountSettingsForm.email.$pristine" class="help-block">Enter a valid email.</p>
+</div>
+<form id="accountSettingsForm" name="accountSettingsForm" novalidate>
+	<div class="form-group">
+		<input id="first_name" name="first_name" class="form-control" ng-model="CtrlAs_accountSettings.firstname" type="text" placeholder="Enter first name" ng-minlength="2" ng-maxlength="25" ng-pattern="/^[a-zA-Z]*$/" required>
+		<p class="error" ng-if="accountSettingsForm.first_name.$error.minlength && !accountSettingsForm.first_name.$error.pattern" >First name is too short.</p>
+        <p class="error" ng-if="accountSettingsForm.first_name.$error.maxlength && !accountSettingsForm.first_name.$error.pattern" >First name is too long.</p>
+        <p class="error" ng-if="accountSettingsForm.first_name.$error.pattern && !accountSettingsForm.first_name.$error.minlength && !accountSettingsForm.first_name.$error.minlength">Invalid first name.</p>
+	</div>
+	<div class="hidden">
+		<input type="text" name="spamprotection" ng-model="CtrlAs_accountSettings.spam_protection">
+	</div>
+	<div class="form-group">
+		<input id="last_name" name="last_name" class="form-control" ng-model="CtrlAs_accountSettings.lastname" type="text" placeholder="Enter last name" ng-minlength="2" ng-maxlength="25" ng-pattern="/^[a-zA-Z]*$/" required>
+		<p class="error" ng-if="accountSettingsForm.last_name.$error.minlength && !accountSettingsForm.lastname.$error.pattern" >Last name is too short.</p>
+        <p class="error" ng-if="accountSettingsForm.last_name.$error.maxlength && !accountSettingsForm.lastname.$error.pattern" >Last name is too long.</p>
+        <p class="error" ng-if="accountSettingsForm.last_name.$error.pattern && !accountSettingsForm.lastname.$error.minlength && !accountSettingsForm.last_name.$error.minlength">Invalid last name.</p>
+	</div>
+	<div class="form-group">
+		<input id="password" ng-change="CtrlAs_accountSettings.refreshStatus()" name="password" class="form-control" ng-model="CtrlAs_accountSettings.password" type="password" placeholder="Enter your password" required>
+	</div>
+	<div class="form-group">
+		<input id="signUp_button" class="btn" type="submit" value="Sign In" ng-click="CtrlAs_accountSettings.updateBasicAccountSettings()" ng-disabled="accountSettingsForm.$invalid">
+	</div>
+	<div class="email-exists-message success" ng-if="CtrlAs_accountSettings.status == 1">Account settings updated successfully.</div>
+	<div class="email-exists-message error" ng-if="CtrlAs_accountSettings.status == 2">Something went wrong. Please check your internet connction and try again.</div>
+	<div class="email-exists-message success" ng-if="CtrlAs_accountSettings.status == 3">Incorrect Password.</div>
+</form> 

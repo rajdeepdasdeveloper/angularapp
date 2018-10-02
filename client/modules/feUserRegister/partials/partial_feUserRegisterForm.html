@@ -1,4 +1,4 @@
-<form id="feUserRegister" name="feUserRegistrationForm" novalidate>
+<form id="feUserRegisterForm" name="feUserRegistrationForm" novalidate>
 	<div class="form-group">
 		<input id="first_name" name="first_name" class="form-control" ng-model="CtrlAs_feUserRegister.first_name" type="text" placeholder="Enter first name" ng-minlength="2" ng-maxlength="25" ng-pattern="/^[a-zA-Z]*$/" required>
 		<p class="error" ng-if="feUserRegistrationForm.first_name.$error.minlength && !feUserRegistrationForm.first_name.$error.pattern" >First name is too short.</p>

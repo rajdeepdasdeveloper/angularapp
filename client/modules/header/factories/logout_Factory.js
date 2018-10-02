@@ -1,4 +1,4 @@
-header.factory('logout_Factory', function($http, $location) {
+header.factory('logout_Factory', function($rootScope, $http, $location) {
 
     var factory = {}; 
 
@@ -12,7 +12,7 @@ header.factory('logout_Factory', function($http, $location) {
 		$http({
 	        method : "JSON",
 	        data : sessionCredentials[0],
-	        url : "http://angularapp.nickosys.com/api/modules/sessionManagement/sessionDestroy.php",
+	        url : $rootScope.apiURL + "sessionManagement/sessionDestroy.php",
 	        headers: {'Content-Type' : 'application/json'}
 	    })
 	    .then(function success(response) {

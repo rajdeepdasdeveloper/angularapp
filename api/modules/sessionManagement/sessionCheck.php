@@ -12,13 +12,20 @@ $data = json_decode(file_get_contents("php://input"));
 
 if(!empty($data->username) && !empty($data->token)){
 	session_start();
-    if($_SESSION["username"] == $data->username && $_SESSION["token"] == $data->token){
-    	echo '{';
-            echo '"message": "1"'; // Auth Success
-        echo '}';
+    if($_SESSION){
+        if($_SESSION["username"] == $data->username && $_SESSION["token"] == $data->token){
+        	echo '{';
+                echo '"message": "1"'; // Auth Success
+            echo '}';
+        }
+        else{
+        	echo '{';
+                echo '"message": "0"'; // Auth Failed
+            echo '}';
+        }
     }
     else{
-    	echo '{';
+        echo '{';
             echo '"message": "0"'; // Auth Failed
         echo '}';
     }
