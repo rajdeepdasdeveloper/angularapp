@@ -58,7 +58,7 @@ if(!empty($data->username) && empty($data->spam_protection)){
 			        $email_to = $userBasicData['username'];
 			        $email_subject = "Password Recovery";
 			        $headers = 'From: '. $domain_url ."\r\n".
-			        'Reply-To: '. "angularapp.nickosys.com" ."\r\n" .
+			        'Reply-To: '. "angularapp.local" ."\r\n" .
 			        'X-Mailer: PHP/' . phpversion();
 			        if(@mail($email_to, $email_subject, $email_message, $headers)){
 			            echo '{';
@@ -68,7 +68,7 @@ if(!empty($data->username) && empty($data->spam_protection)){
 			        }
 			        else{
 			        	echo '{';
-	            			echo '"message": "0"'; // Unsuccessful (Server Problem)
+	            			echo '"message": "' . $person->username .  '"'; // Unsuccessful (Server Problem)
 			       		echo '}';
 			       		die();
 			        }
@@ -96,9 +96,9 @@ if(!empty($data->username) && empty($data->spam_protection)){
 	}
 	else{
 		echo '{';
-        	echo '"message": "2"'; // Username does not exist (Server Problem)
-   		echo '}';
-   		die();
+	            			echo '"message": "' . $person->username .  '"'; // Unsuccessful (Server Problem)
+			       		echo '}';
+			       		die();
 	}
 }
 else{
