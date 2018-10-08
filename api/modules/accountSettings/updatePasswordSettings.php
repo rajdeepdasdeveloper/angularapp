@@ -36,9 +36,9 @@ function password_Decrypt($password, $salt, $papper, $password_hash){
 }
 
 if(!empty($data->username) && !empty($data->token) && !empty($data->oldPassword) && !empty($data->newPassword) && empty($data->spam_protection)){
-	$person->username = mysql_real_escape_string($data->username);
-	$person->password = mysql_real_escape_string($data->newPassword);
-	$oldPassword = mysql_real_escape_string($data->oldPassword);
+	$person->username = $data->username;
+	$person->password = $data->newPassword;
+	$oldPassword = $data->oldPassword;
 	session_start();
 	if($_SESSION["username"] == $data->username && $_SESSION["token"] == $data->token && $person->usernameCheck()){
 		$stmt = $person->getAuthValue();

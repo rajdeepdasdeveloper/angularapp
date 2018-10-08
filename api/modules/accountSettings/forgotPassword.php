@@ -31,7 +31,7 @@ function clean_string($string) {
 $data = json_decode(file_get_contents("php://input"));
 
 if(!empty($data->username) && empty($data->spam_protection)){
-	$person->username = mysql_real_escape_string($data->username);
+	$person->username = $data->username;
 	if($person->usernameCheck()){
 		if($person->userStatusCheck()){
 			$token = substr(str_shuffle("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_") , 0, 32);
@@ -57,8 +57,8 @@ if(!empty($data->username) && empty($data->spam_protection)){
 			        $email_message .= $token;
 			        $email_to = $userBasicData['username'];
 			        $email_subject = "Password Recovery";
-			        $headers = 'From: '. $domain_url ."\r\n".
-			        'Reply-To: '. "angularapp.local" ."\r\n" .
+			        $headers = 'From: '. "angularapp.nickosys" ."\r\n".
+			        'Reply-To: '. "angularapp.nickosys" ."\r\n" .
 			        'X-Mailer: PHP/' . phpversion();
 			        if(@mail($email_to, $email_subject, $email_message, $headers)){
 			            echo '{';
@@ -68,7 +68,7 @@ if(!empty($data->username) && empty($data->spam_protection)){
 			        }
 			        else{
 			        	echo '{';
-	            			echo '"message": "' . $person->username .  '"'; // Unsuccessful (Server Problem)
+	            			echo '"message": "0"'; // Unsuccessful (Server Problem)
 			       		echo '}';
 			       		die();
 			        }
@@ -96,9 +96,9 @@ if(!empty($data->username) && empty($data->spam_protection)){
 	}
 	else{
 		echo '{';
-	            			echo '"message": "' . $person->username .  '"'; // Unsuccessful (Server Problem)
-			       		echo '}';
-			       		die();
+        	echo '"message": "2"'; // Username does not exist (Server Problem)
+   		echo '}';
+   		die();
 	}
 }
 else{
