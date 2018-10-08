@@ -19,12 +19,24 @@ accountSettings.factory('updateAccountSettings', function($rootScope, $http, $lo
         .then(function success(response) {
             if(response.data){
                 ctrl.status = response.data.message;
+                if(response.data.message == "1"){
+                    ctrl.firstname = "";
+                    ctrl.lastname = "";
+                    ctrl.password = "";
+                    ctrl.repassword = "";
+                     $timeout(function(){
+                        $location.url('/dashboard');
+                     }, 3000)
+                }
                 if(response.data.message == "2"){
                 	alert("There might be something wrong with the server. Please try again after sometime.");
                 	window.location = $rootScope.baseUrl + "sign-in";
                 }
                 if(response.data.message == "3"){
                 	ctrl.password = "";
+                    ctrl.rePassword = "";
+                    ctrl.formName.password.$setPristine();
+                    ctrl.formName.rePassword.$setPristine();
                 }
             }
             else{

@@ -1,7 +1,7 @@
 /* ######## MAIN STYLE ######## */
 /* ######## BLOCKS ######## */
 /* ====================== SIGN IN PAGE START ====================== */
-#signin_main {
+/*#signin_main {
   background: #d52f26;
   background: -moz-radial-gradient(center, ellipse cover, #d52f26 0%, #bd0707 100%);
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #d52f26), color-stop(100%, #bd0707));
@@ -36,7 +36,7 @@
   border:1px solid #d52f26;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;*/
+  border-radius: 5px;*
 }
 #signin_main .signin-wrapper #feUserLogIn input[type="text"], #signin_main .signin-wrapper #feUserLogIn input[type="password"], #signin_main .signin-wrapper #feUserLogIn input[type="email"] {
   background: #d52f26;
@@ -65,7 +65,7 @@
 
 /* ====================== SIGN IN PAGE START ====================== */
 /* ====================== SIGN UP PAGE START ====================== */
-#signup_main {
+/*#signup_main {
   background: #d52f26;
   background: -moz-radial-gradient(center, ellipse cover, #d52f26 0%, #bd0707 100%);
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #d52f26), color-stop(100%, #bd0707));
@@ -102,7 +102,7 @@
   -moz-border-radius: 5px;
   border-radius: 5px;*/
 }
-#signup_main .signup-wrapper #feUserRegister input[type="text"], #signup_main .signup-wrapper #feUserRegister input[type="password"], #signup_main .signup-wrapper #feUserRegister input[type="email"] {
+/*#signup_main .signup-wrapper #feUserRegister input[type="text"], #signup_main .signup-wrapper #feUserRegister input[type="password"], #signup_main .signup-wrapper #feUserRegister input[type="email"] {
   background: #d52f26;
   background: -moz-radial-gradient(center, ellipse cover, #d52f26 0%, #bd0707 100%);
   background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #d52f26), color-stop(100%, #bd0707));

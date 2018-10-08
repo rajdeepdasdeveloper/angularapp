@@ -1,7 +1,9 @@
 <div id="signin_main" ng-if="CtrlAs_feUserLogIn.show">
 	<div class="signin-wrapper">
 		<h1>Sign In</h1>
-		<fe-User-Log-In-Directive></fe-User-Log-In-Directive>
+		<!-- <fe-User-Log-In-Directive></fe-User-Log-In-Directive> -->
+		<ng-include src="'client/modules/feUserLogIn/partials/partial_feUserLogInForm.html'"></ng-include>
 	</div>
-	<a href="" ui-sref="feUserRegister">Register</a>
+	<a href="" ui-sref="registration">Register</a>
+	<a href="" ui-sref="forgotPassword">Forgot password?</a>
 </div>

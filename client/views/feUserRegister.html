@@ -1,7 +1,8 @@
 <div id="signup_main" ng-if="CtrlAs_feUserRegister.show">
 	<div class="signup-wrapper">
 		<h1>Sign Up</h1>
-		<fe-User-Register-Directive></fe-User-Register-Directive>
+		<!-- <fe-User-Register-Directive></fe-User-Register-Directive> -->
+		<ng-include src="'client/modules/feUserRegister/partials/partial_feUserRegisterForm.html'"></ng-include>
 	</div>
-	<a href="" ui-sref="feUserlogIn">Login</a>
+	<a href="" ui-sref="login">Login</a>
 </div>

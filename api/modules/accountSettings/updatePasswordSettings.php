@@ -1,4 +1,5 @@
-<?php
+<?php  
+
 // required headers
 header("Access-Control-Allow-Origin:*");
 header("Content-Type: application/json; charset=UTF-8");
@@ -34,11 +35,10 @@ function password_Decrypt($password, $salt, $papper, $password_hash){
     }
 }
 
-if(!empty($data->username) && !empty($data->first_name) && !empty($data->last_name) && !empty($data->password) && empty($data->spam_protection)){
-	$person->username = $data->username;
-	$person->first_name = $data->first_name;
-	$person->last_name = $data->last_name;
-	$person->password = $data->password;
+if(!empty($data->username) && !empty($data->token) && !empty($data->oldPassword) && !empty($data->newPassword) && empty($data->spam_protection)){
+	$person->username = mysql_real_escape_string($data->username);
+	$person->password = mysql_real_escape_string($data->newPassword);
+	$oldPassword = mysql_real_escape_string($data->oldPassword);
 	session_start();
 	if($_SESSION["username"] == $data->username && $_SESSION["token"] == $data->token && $person->usernameCheck()){
 		$stmt = $person->getAuthValue();
@@ -60,8 +60,9 @@ if(!empty($data->username) && !empty($data->first_name) && !empty($data->last_na
        		echo '}';
        		die();
 		}
-		if(password_Decrypt($person->password, $authValue['salt_value'], "!@#$%^&*()", $authValue['password'])){
-			if($person->updateBasicSettings()){
+
+		if(password_Decrypt($oldPassword, $authValue['salt_value'], "!@#$%^&*()", $authValue['password'])){
+			if($person->updatePasswordSettings()){
 				echo '{';
             		echo '"message": "1"'; // Successfull
         		echo '}';
@@ -87,7 +88,7 @@ if(!empty($data->username) && !empty($data->first_name) && !empty($data->last_na
 	}
 }
 else{
-   header('Location: '. $domain_url);
+	header('Location: '. $domain_url);
 }
 
 ?>

@@ -1,15 +1,19 @@
-<form id="feUserLogIn">
+<form id="feUserLogInForm" name="feUserLoginForm" novalidate>
 	<div class="form-group">
-		<input id="signIn_email" class="form-control" ng-model="CtrlAs_feUserLogIn.email" type="email" placeholder="Username">
+		<input id="signIn_email" class="form-control" ng-model="CtrlAs_feUserLogIn.email" name="email" type="email" placeholder="Username" required>
+		<p class="error" ng-if="!feUserLoginForm.email.$pristine && feUserLoginForm.email.$error.required">Email is required.</p>
+		<p ng-show="feUserLoginForm.email.$invalid && !CtrlAs_feUserLogIn.email.$pristine && !feUserLoginForm.email.$error.required" class="error">Enter a valid email.</p>
 	</div>
 	<div class="form-group">
-		<input id="signIn_password" class="form-control" ng-model="CtrlAs_feUserLogIn.password" type="password" placeholder="Password">
+		<input id="signIn_password" class="form-control" ng-model="CtrlAs_feUserLogIn.password" type="password" name="password" placeholder="Password" ng-attr-type="{{ CtrlAs_feUserLogIn.showPassword ? 'text':'password'}}" required>
+		<p class="error" ng-if="!feUserLoginForm.password.$pristine && feUserLoginForm.password.$error.required">Password is required.</p>
+		<input type="button" value="Show password" ng-attr-value="{{ CtrlAs_feUserLogIn.showPassword ? 'Hide password':'Show password'}}" ng-click="CtrlAs_feUserLogIn.toggleShowPassword()" />
+	</div>
+	<div class="form-group hidden">
+		<input id="spam_protection" class="form-control" ng-model="CtrlAs_feUserLogIn.spam_protection" type="text" placeholder="spam_protection">
 	</div>
 	<div class="form-group">
-		<input id="spam_protection" class="form-control hidden" ng-model="CtrlAs_feUserLogIn.spam_protection" type="password" placeholder="spam_protection">
-	</div>
-	<div class="form-group">
-		<input id="signIn_button" class="btn" type="submit" value="Sign In" ng-click="CtrlAs_feUserLogIn.login()">
+		<input id="signIn_button" class="btn" type="submit" value="Sign In" ng-click="CtrlAs_feUserLogIn.login()" ng-disabled="!feUserLoginForm.$valid || CtrlAs_feUserLogIn.disabled">
 	</div>
 	<div ng-if="CtrlAs_feUserLogIn.status" class="status-message"> {{ CtrlAs_feUserLogIn.status }} </div>
 </form>

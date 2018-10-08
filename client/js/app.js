@@ -18,49 +18,64 @@ mainApp.controller('coreAppController', function($scope, $rootScope, $http){
 	$rootScope.apiURL = "http://angularapp.nickosys.com/api/modules/";
 });
 
+/* Default State Controller */
+mainApp.controller('defaultController', function(auth, $timeout, $location){
+	var coreAppCtrl = this;
+	if(!auth.status){
+		$timeout(function(){
+	        $location.url(auth.failure);
+	    },1);
+	}
+	else if(auth.promise.message == "0"){
+		$timeout(function(){
+	        $location.url(auth.failure);
+	    },1);
+	}
+	else if(auth.promise.message == "1"){
+		$timeout(function(){
+	        $location.url(auth.success);
+	    },1);
+	}
+});
+
 /* App Configuration */
 mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
         
 	// Default
-	$urlRouterProvider.otherwise('/sign-in');
+	$urlRouterProvider.otherwise('/');
 	
 	// Page Tree
     $stateProvider
+    .state("default", {
+        url: "/",
+        template: "",
+		controller: "defaultController",
+		controllerAs: "CtrlAs_defaultController",
+		resolve: {
+			'auth' : function(userSession){
+				return userSession.exists('/dashboard', '/sign-in');
+			}
+		}
+    })
 	.state("login", {
         url: "/sign-in",
         templateUrl: "client/views/feUserLogIn.html",
 		controller: "Ctrl_feUserLogIn",
 		controllerAs: "CtrlAs_feUserLogIn",
 		resolve: {
-			'check' : function($rootScope, $location, $http, $state){
-				if(localStorage.getItem("username") =="" || localStorage.getItem("token") ==""){
-					$location.url('/sign-in');
-				}
-				else{
-					var sessionCredentials = [{
-						username : localStorage.getItem("username"),
-						token : localStorage.getItem("token")
-					}];
-					$http({
-				        method : "JSON",
-				        data : sessionCredentials[0],
-				        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
-				        headers: {'Content-Type' : 'application/json'}
-				    })
-				    .then(function success(response) {
-				        if(response.data){
-				            if(response.data.message == "1"){
-				               	$state.go('dashboard');
-				       		}
-				       		else if(response.data.message == "0"){
-				       			$location.url('/sign-in');
-				       		}
-				        }
-				    }, 
-				    function error(response) {
-				       $location.url('/sign-in');
-				    });
-				}
+			'auth' : function(userSession){
+				return userSession.exists('/dashboard', '/sign-in');
+			}
+		}
+    })
+    .state("forgotPassword", {
+        url: "/forgot-password",
+        templateUrl: "client/views/view_forgotPassword.html",
+		controller: "Ctrl_forgotPassword",
+		controllerAs: "CtrlAs_forgotPassword",
+		resolve: {
+			'auth' : function(userSession){
+				return userSession.exists('/dashboard', '/forgot-password');
 			}
 		}
     })
@@ -70,35 +85,8 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 		controller: "Ctrl_feUserRegister",
 		controllerAs: "CtrlAs_feUserRegister",
 		resolve: {
-			'check' : function($rootScope, $location, userSession, $http, $state){
-				if(localStorage.getItem("username") =="" || localStorage.getItem("token") ==""){
-					$location.url('/sign-up');
-				}
-				else{
-					var sessionCredentials = [{
-						username : localStorage.getItem("username"),
-						token : localStorage.getItem("token")
-					}];
-					$http({
-				        method : "JSON",
-				        data : sessionCredentials[0],
-				        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
-				        headers: {'Content-Type' : 'application/json'}
-				    })
-				    .then(function success(response) {
-				        if(response.data){
-				            if(response.data.message == "1"){
-				               	$state.go('dashboard');
-				       		}
-				       		else if(response.data.message == "0"){
-				       			$location.url('/sign-up');
-				       		}
-				        }
-				    }, 
-				    function error(response) {
-				       $location.url('/sign-up');
-				    });
-				}
+			'auth' : function(userSession){
+				return userSession.exists('/dashboard', '/sign-up');
 			}
 		}
     })
@@ -108,42 +96,8 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 		controller: "Ctrl_dashboard",
 		controllerAs: "CtrlAs_dashboard",
 		resolve: {
-			'check' : function($rootScope, $location, userSession, $http, $timeout, $state){
-				if(localStorage.getItem("username") =="" && localStorage.getItem("token") ==""){
-				 	$location.url('/sign-in');
-			 	}
-			 	else{
-					var sessionCredentials = [{
-						username : localStorage.getItem("username"),
-						token : localStorage.getItem("token")
-					}];
-					$http({
-				        method : "JSON",
-				        data : sessionCredentials[0],
-				        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
-				        headers: {'Content-Type' : 'application/json'}
-				    })
-				    .then(function success(response) {
-				        if(response.data){
-				            if(response.data.message == "0"){
-				             	$timeout(function(){
-				             		$location.url('/sign-in');
-				             	},1);
-				       		}
-				            else if(response.data.message == "1"){
-				            	$timeout(function(){
-				             		$location.url('/dashboard');
-				             	},1);
-				       			
-				            }
-				        }
-				    }, 
-				    function error(response) {
-				       	$timeout(function(){
-				             $location.url('/sign-in');
-				        },1);
-				    });
-				}
+			'auth' : function(userSession){
+				return userSession.exists('/dashboard', '/sign-in');
 			}
 		}
     })
@@ -153,41 +107,19 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 		controller: "Ctrl_accountSettings",
 		controllerAs: "CtrlAs_accountSettings",
 		resolve: {
-			'check' : function($rootScope, $location, userSession, $http, $timeout, $state){
-				if(localStorage.getItem("username") =="" && localStorage.getItem("token") ==""){
-				 	$location.url('/sign-in');
-			 	}
-			 	else{
-					var sessionCredentials = [{
-						username : localStorage.getItem("username"),
-						token : localStorage.getItem("token")
-					}];
-					$http({
-				        method : "JSON",
-				        data : sessionCredentials[0],
-				        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
-				        headers: {'Content-Type' : 'application/json'}
-				    })
-				    .then(function success(response) {
-				        if(response.data){
-				            if(response.data.message == "0"){
-				             	$timeout(function(){
-				             		$location.url('/sign-in');
-				             	},1);
-				       		}
-				            else if(response.data.message == "1"){
-				            	$timeout(function(){
-				             		$location.url('/account-settings');
-				             	},1);
-				            }
-				        }
-				    }, 
-				    function error(response) {
-				       	$timeout(function(){
-				             $location.url('/sign-in');
-				        },1);
-				    });
-				}
+			'auth' : function(userSession){
+				return userSession.exists('/account-settings', '/sign-in');
+			}
+		}
+    })
+    .state("accountSettings.changePassword", {
+        url: "/change-password",
+        templateUrl: "client/views/view_changePassword.html",
+		controller: "Ctrl_changePassword",
+		controllerAs: "CtrlAs_changePassword",
+		resolve: {
+			'auth' : function(userSession){
+				return userSession.exists('/account-settings/change-password', '/sign-in');
 			}
 		}
     });
@@ -198,40 +130,86 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 });
 
 /* SESSION CHECKING */
-mainApp.factory('userSession', function($http, $rootScope) {
+mainApp.factory('userSession', function($rootScope, $http, $location, $timeout) {
 	
 	var factory = {}
-	factory.exists = function() {
-		var status = false;
-		if(localStorage.getItem("username") && localStorage.getItem("token")){
+	factory.exists = function(success, failure) {
+		var returnValue = {};
+		if(success){
+			returnValue.success = success;
+		}
+		if(failure){
+			returnValue.failure = failure;
+		}
+		if(localStorage.getItem("username") == null || localStorage.getItem("token") == null){
+			returnValue.status = false;
+			return returnValue;
+		}
+		else{
 			var sessionCredentials = [{
 				username : localStorage.getItem("username"),
 				token : localStorage.getItem("token")
 			}];
-			$http({
+			return $http({
 		        method : "JSON",
 		        data : sessionCredentials[0],
 		        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
 		        headers: {'Content-Type' : 'application/json'}
 		    })
 		    .then(function success(response) {
-		        if(response.data){
-		            if(response.data.message == "1"){
-		            	status = true;
-		       		}
-		            else if(response.data.message == "0"){
-		            	status = false;
-		            }
+		    	if(response.data){
+		    		returnValue.status = true;
+		       		returnValue.promise = response.data;
+		       		return returnValue;
 		        }
 		    }, 
 		    function error(response) {
-		    	status = false;
+		    	returnValue.status = false;
+				return returnValue;
 		    });	
 		}
-		else{
-			status = false;
+	}
+
+	factory.publicPages = function(authPromise, thisController){
+		if(!authPromise.status){
+			thisController.show = true;
+			$timeout(function(){
+		        $location.url(authPromise.failure);
+		    },1);
 		}
-		return status;
+		else if(authPromise.promise.message == "0"){
+			thisController.show = true;
+			$timeout(function(){
+		        $location.url(authPromise.failure);
+		    },1);
+		}
+		else if(authPromise.promise.message == "1"){
+			thisController.show = false;
+			$timeout(function(){
+		        $location.url(authPromise.success);
+		    },1);
+		}
+	}
+
+	factory.privatePages = function(authPromise, thisController){
+		if(!authPromise.status){
+			thisController.show = false;
+			$timeout(function(){
+		        $location.url(authPromise.failure);
+		    },1);
+		}
+		else if(authPromise.promise.message == "0"){
+			thisController.show = false;
+			$timeout(function(){
+		        $location.url(authPromise.failure);
+		    },1);
+		}
+		else if(authPromise.promise.message == "1"){
+			thisController.show = true;
+			$timeout(function(){
+		        $location.url(authPromise.success);
+		    },1);
+		}
 	}
 
 	return factory;

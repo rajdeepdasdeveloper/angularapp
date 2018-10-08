@@ -36,6 +36,35 @@ class Person{
         }
     }
 
+    // User Status check
+    function userStatusCheck(){
+        $query = "SELECT `user_status` FROM " . $this->table_name . " WHERE `username` = ?";
+        $query = str_replace("\'","",$query);
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(1, $this->username);
+        // execute query
+        if($stmt->execute()){
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                // extract row
+                // this will make $row['name'] to
+                // just $name only
+                extract($row);
+                $userStatus = array(
+                    "user_status" => $user_status,
+                );
+            }
+            if($userStatus['user_status']=="1"){
+                return true;
+            }
+            else if($userStatus['user_status']=="0"){
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
     // Registration
     function register(){
 
@@ -128,6 +157,40 @@ class Person{
         }
     }
 
+    // UPDATE PASSWORD SETTINGS (Password)
+    function updatePasswordSettings(){
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                password = :password_hash, salt_value = :salt_value
+            WHERE
+                username = :username";
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+     
+        // sanitize
+        $this->username=htmlspecialchars(strip_tags($this->username));
+        $this->password=htmlspecialchars(strip_tags($this->password));
+
+        // Salt Papper BCRYPT Hashing
+        $random_salt = substr(str_shuffle($this->salt_characters), 0, 15);
+        $this->password_hash = $random_salt . $this->password . "!@#$%^&*()";
+        $this->password_hash = password_hash($this->password_hash, PASSWORD_BCRYPT, array('cost' => 11));
+        
+        // bind values
+        $stmt->bindParam(":username", $this->username);
+        $stmt->bindParam(":password_hash", $this->password_hash);
+        $stmt->bindParam(":salt_value", $random_salt);
+     
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     function setLastLogin(){
         // query to insert record
         $query = "UPDATE
@@ -170,6 +233,32 @@ class Person{
         else{
             return false;
         }
+    }
+
+    // Send password link for forgot password
+    function sendPasswordRecoveryLink($settingsToken){
+        
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                settings_token = :settings_token
+            WHERE
+                username = :username";
+
+        $stmt = $this->conn->prepare($query);
+
+        // bind values
+        $stmt->bindParam(":settings_token", $settingsToken);
+        $stmt->bindParam(":username", $this->username);
+
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }     
+
     }
 
     // GET SALT VALUE AND PASSWORD

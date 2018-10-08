@@ -1,48 +1,29 @@
 var feUserRegister = angular.module('Mod_feUserRegister', ['ui.router']);
 
-feUserRegister.controller('Ctrl_feUserRegister', function($rootScope, $location, registerOperation, $http, $state /*, $stateParams, feUserRegister_Factory, $parse */){
+feUserRegister.controller('Ctrl_feUserRegister', function(auth, userSession, $rootScope, $location, registerOperation, $http, $state /*, $stateParams, feUserRegister_Factory, $parse */){
 	
 	var ctrl = this;
+	ctrl.show = false;
 
 	// {#--- SESSION AUTHENTICATION 
-	ctrl.show = false;
-	var sessionCredentials = [{
-		username : localStorage.getItem("username"),
-		token : localStorage.getItem("token")
-	}];
-	$http({
-        method : "JSON",
-        data : sessionCredentials[0],
-        url : $rootScope.apiURL + "sessionManagement/sessionCheck.php",
-        headers: {'Content-Type' : 'application/json'}
-    })
-    .then(function success(response) {
-        if(response.data){
-            if(response.data.message == "1"){
-               	$location.url('/dashboard');
-       		}
-       		else if(response.data.message == "0"){
-       			ctrl.show = true;
-       		}
-        }
-    }, 
-    function error(response) {
-       ctrl.show = true;
-    });
+	userSession.publicPages(auth, ctrl);
     // SESSION AUTHENTICATION ---#}
 
 	ctrl.first_name = "";
 	ctrl.last_name = "";
 	ctrl.email = "";
 	ctrl.password = "";
+	ctrl.rePassword = "";
 	ctrl.spam_protection = "";
 	ctrl.status = "";
+	ctrl.disabled = false;
+	ctrl.showPassword = false;
 
 	var first_Name = ctrl.first_name;
 	var last_Name = ctrl.last_name;
 	var email = ctrl.email;
 	var password = ctrl.password;
-	//alert(coreAppCtrl.baseUrl);
+
 	ctrl.register = function(){
 		var newUser = [{
 			username : ctrl.email,
@@ -53,8 +34,6 @@ feUserRegister.controller('Ctrl_feUserRegister', function($rootScope, $location,
 		}];
 		
 		registerOperation.register(newUser, ctrl);
-		
-		
 
 		/*newUser = JSON.stringify(newUser);
 		if(!localStorage.feUser){
@@ -65,4 +44,13 @@ feUserRegister.controller('Ctrl_feUserRegister', function($rootScope, $location,
 		}
 		$location.path('/dashboard');*/
 	}
+
+	ctrl.toggleShowPassword = function(){
+      if(!ctrl.showPassword){
+        ctrl.showPassword = true;
+      }
+      else{
+        ctrl.showPassword = false;
+      }
+    }
 });
