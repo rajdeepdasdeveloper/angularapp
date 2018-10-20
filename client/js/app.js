@@ -79,6 +79,17 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 			}
 		}
     })
+    .state("forgotPassword.changeForgotPassword", {
+        url: "/change-password",
+        templateUrl: "client/views/view_changeForgotPassword.html",
+		controller: "Ctrl_forgotPassword",
+		controllerAs: "CtrlAs_forgotPassword",
+		resolve: {
+			'auth' : function(userSession){
+			 	return userSession.exists('/dashboard', '/forgot-password/change-password');
+			}
+		}
+    })
     .state("registration", {
         url: "/sign-up",
         templateUrl: "client/views/feUserRegister.html",

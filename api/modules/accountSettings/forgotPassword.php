@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 // required headers
 header("Access-Control-Allow-Origin:*");
@@ -51,6 +51,21 @@ if(!empty($data->username) && empty($data->spam_protection)){
 				        );
 			   		}
 
+			   		session_start();
+
+			   		if($_SESSION){
+				   		if($_SESSION["forgotPasswordUsername"] && $_SESSION["settingsToken"] && $_SESSION["settingsTokenAttemt"]){
+				   			unset($_SESSION["forgotPasswordUsername"]);
+					        unset($_SESSION["settingsToken"]);
+					        unset($_SESSION["settingsTokenAttemt"]);
+					        session_destroy();
+				   		}
+				   	}
+
+			   		$_SESSION["forgotPasswordUsername"] = $person->username;
+            		$_SESSION["settingsToken"] = $token;
+            		$_SESSION["settingsTokenAttemt"] = 0;
+
 			   		$email_message = "";
 					$email_message .= "Dear, " . clean_string($userBasicData['firstname']) . " " . clean_string($userBasicData['lastname']) . "\n";
 			        $email_message .= "Token: " . "\n";
@@ -60,11 +75,19 @@ if(!empty($data->username) && empty($data->spam_protection)){
 			        $headers = 'From: '. "angularapp.nickosys" ."\r\n".
 			        'Reply-To: '. "angularapp.nickosys" ."\r\n" .
 			        'X-Mailer: PHP/' . phpversion();
-			        if(@mail($email_to, $email_subject, $email_message, $headers)){
-			            echo '{';
-	            			echo '"message": "1"'; // Successful
-			       		echo '}';
-			       		die();
+			        if($_SESSION['settingsToken']){
+			        	if(@mail($email_to, $email_subject, $email_message, $headers)){
+				            echo '{';
+		            			echo '"message": "1"'; // Successful
+				       		echo '}';
+				       		die();
+				       	}
+				       	else{
+				        	echo '{';
+		            			echo '"message": "1"'; // Unsuccessful (Server Problem)
+				       		echo '}';
+				       		die();
+			        	}
 			        }
 			        else{
 			        	echo '{';
