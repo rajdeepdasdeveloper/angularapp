@@ -51,7 +51,7 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
     ctrl.updatePasswordSettings = function(){
 
     	var sessionCredentials = [{
-    		username : ctrl.email
+    		username : ctrl.email,
 			recoveryCode : ctrl.recoveryCode,
 			newForgotPassword : ctrl.reNewForgotPassword,
 			spam_protection : ctrl.spam_protection
