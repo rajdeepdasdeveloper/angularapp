@@ -35,12 +35,12 @@ function password_Decrypt($password, $salt, $papper, $password_hash){
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-if(!empty($data->username) && !empty($data->token) && !empty($data->password)){
+if(!empty($data->username) && !empty($data->recoveryCode) && !empty($data->newForgotPassword)){
 	$person->username = $data->username;
-	$person->password = $data->password;
+	$person->password = $data->newForgotPassword;
 	session_start();
     if($_SESSION){
-        if($_SESSION["forgotPasswordUsername"] == $data->username && $_SESSION["settingsToken"] == $data->token){
+        if($_SESSION["forgotPasswordUsername"] == $data->username && $_SESSION["settingsToken"] == $data->recoveryCode){
         	if($person->updatePasswordSettings()){
 				echo '{';
             		echo '"message": "1"'; // Successfull
