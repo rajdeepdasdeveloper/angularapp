@@ -22,7 +22,7 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	$http({
 	    method : "JSON",
 	    data : sessionCredentials[0],
-	    url : $rootScope.apiURL + "accountSettings/forgotPasswordSessionCheck.php",
+	    url : $rootScope.apiURL + "sessionManagement/forgotPasswordSessionCheck.php",
 	    headers: {'Content-Type' : 'application/json'}
 	})
 	.then(function success(response) {
