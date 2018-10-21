@@ -1,6 +1,6 @@
 var accountSettings = angular.module('Mod_forgotPassword', ['ui.router']);
 
-feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, userSession, $http, $state, $location /*sendPasswordRecoveryLink /*, $stateParams, feUserRegister_Factory, $parse */){
+feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, userSession, $http, $state, $location, $timeout /*sendPasswordRecoveryLink, $stateParams, feUserRegister_Factory, $parse */){
 	
 	var ctrl = this;
 	ctrl.show = false;
@@ -16,6 +16,7 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	ctrl.recoveryLink = false;
 
 	ctrl.sendPasswordRecoveryMail = function(){
+		alert();
 		var sessionCredentials = [{
 			username : ctrl.email,
 			spam_protection : ctrl.spam_protection
