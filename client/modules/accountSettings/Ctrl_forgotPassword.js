@@ -13,6 +13,7 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	ctrl.spam_protection = "";
 	ctrl.status = "";
 	ctrl.disabled = false;
+	ctrl.currStep = false;
 	ctrl.nextStep = false;
 
 	var sessionCredentials = [{
@@ -32,6 +33,9 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	                ctrl.email = response.data.message.username;
 	                ctrl.nextStep = true;
 				}
+	        }
+	        else{
+	        	ctrl.currStep = true;
 	        }
 	    }
 	}, function error(response) {
@@ -55,6 +59,7 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	    		ctrl.status = response.data.message;
 	    		if(response.data.message == "1"){ // Successful
 	    			ctrl.nextStep = true;
+	    			ctrl.currStep = false;
 	    		}
 	    		else if(response.data.message == "2"){ // Unsuccessful (Username does not exist)
 	    			ctrl.nextStep = false;
