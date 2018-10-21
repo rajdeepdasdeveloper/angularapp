@@ -60,6 +60,7 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	    		if(response.data.message == "1"){ // Successful
 	    			ctrl.nextStep = true;
 	    			ctrl.currStep = false;
+	    			ctrl.status = "";
 	    		}
 	    		else if(response.data.message == "2"){ // Unsuccessful (Username does not exist)
 	    			ctrl.nextStep = false;
