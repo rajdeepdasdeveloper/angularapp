@@ -80,6 +80,9 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
                     ctrl.recoveryCode = "";
 				    ctrl.reNewForgotPassword = "";
 					ctrl.reNewForgotPassword = "";
+					ctrl.changeForgotPasswordForm.recoveryCode.$setPristine();
+					ctrl.changeForgotPasswordForm.password.$setPristine();
+					ctrl.changeForgotPasswordForm.repassword.$setPristine();
 					ctrl.status = response.data.message;
 					$timeout(function(){
 						$location.url('/sign-in');
@@ -88,14 +91,11 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
                 else if(response.data.message == "0"){
                 	ctrl.status = response.data.message;
                 	ctrl.recoveryCode = "";
+                	ctrl.changeForgotPasswordForm.recoveryCode.$setPristine();
                 }
                 else if(response.data.message == "2"){
                 	alert("There might be something wrong with the server. Please try again after sometime.");
                 	window.location = $rootScope.baseUrl + "sign-in";
-                }
-                else if(response.data.message == "3"){
-                	ctrl.oldPassword = "";
-                    ctrl.formName.password.$setPristine();
                 }
             }
             else{

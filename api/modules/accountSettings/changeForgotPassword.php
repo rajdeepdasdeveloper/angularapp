@@ -64,14 +64,14 @@ if(!empty($data->username) && !empty($data->recoveryCode) && !empty($data->newFo
         }
         else{
         	echo '{';
-                echo '"message": "0"'; // Auth Failed
+                echo '"message": "0"'; // Unsuccessful (Auth Failed)
             echo '}';
             die();
         }
     }
     else{
         echo '{';
-            echo '"message": "0"'; // Unsuccessful (Session Doesn't exist)
+            echo '"message": "3"'; // Unsuccessful (Session Doesn't exist)
         echo '}';
         die();
     }
