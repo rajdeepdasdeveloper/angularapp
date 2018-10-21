@@ -31,11 +31,13 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	            if (typeof(Storage) !== "undefined") {
 	                ctrl.email = response.data.message.username;
 	                ctrl.nextStep = true;
+	                console.log(response);
 				}
 	        }
 	    }
 	}, function error(response) {
-	    alert("Something went wrong. Please check your internet connction and try again.");
+		console.log(response);
+	    //alert("Something went wrong. Please check your internet connction and try again.");
 	});
 
 	ctrl.sendPasswordRecoveryMail = function(){
