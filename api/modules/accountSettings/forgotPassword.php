@@ -84,42 +84,42 @@ if(!empty($data->username) && empty($data->spam_protection)){
 				       	}
 				       	else{
 				        	echo '{';
-		            			echo '"message": "1"'; // Unsuccessful (Server Problem)
+		            			echo '"message": "0"'; // Unsuccessful (Server Problem)
 				       		echo '}';
 				       		die();
 			        	}
 			        }
 			        else{
 			        	echo '{';
-	            			echo '"message": "0"'; // Unsuccessful (Server Problem)
+	            			echo '"message": "0"'; // Unsuccessful (Session Missing)
 			       		echo '}';
 			       		die();
 			        }
 			    }
 			    else{
 			    	echo '{';
-	            		echo '"message": "0"'; // Unsuccessful (Server Problem)
+	            		echo '"message": "0"'; // Unsuccessful (Database Problem)
 		       		echo '}';
 		       		die();
 			    }
 			}
 			else{
 				echo '{';
-	            	echo '"message": "0"'; // Unsuccessful (Server Problem)
+	            	echo '"message": "0"'; // Unsuccessful (Database Problem)
 	       		echo '}';
 	       		die();
 			}
 		}
 		else{
 			echo '{';
-        		echo '"message": "3"'; // User is inactive (Server Problem)
+        		echo '"message": "3"'; // Unsuccessful (Inactive User)
 	   		echo '}';
 	   		die();
 		}
 	}
 	else{
 		echo '{';
-        	echo '"message": "2"'; // Username does not exist (Server Problem)
+        	echo '"message": "2"'; // Unsuccessful (Username does not exist)
    		echo '}';
    		die();
 	}

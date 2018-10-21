@@ -16,7 +16,7 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	ctrl.recoveryLink = false;
 
 	ctrl.sendPasswordRecoveryMail = function(){
-		alert();
+		ctrl.disabled = true;
 		var sessionCredentials = [{
 			username : ctrl.email,
 			spam_protection : ctrl.spam_protection
@@ -29,16 +29,25 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
     	})
 	    .then(function success(response) {
 	    	if(response.data){
-	    		if(response.data.message == "1"){
+	    		ctrl.status = response.data.message;
+	    		if(response.data.message == "1"){ // Successful
 	    			ctrl.recoveryLink = true;
 	    		}
-	    		else if(response.data.message == "0"){
+	    		else if(response.data.message == "2"){ // Unsuccessful (Username does not exist)
+	    			ctrl.recoveryLink = false;
+	    		}
+	    		else if(response.data.message == "3"){ // Unsuccessful (Inactive User)
+	    			ctrl.recoveryLink = false;
+	    		}
+	    		else if(response.data.message == "0"){ //  Unsuccessful (Server Problem)
 	    			ctrl.recoveryLink = false;
 	    		}
 	        }
+	        ctrl.disabled = false;
 	    }, 
 	    function error(response) {
 	    	ctrl.recoveryLink = false;
+	    	ctrl.status = "0";
 	    });	
 
       // sendPasswordRecoveryLink.sendPasswordRecoveryLink(passwordInfo, ctrl);
@@ -90,12 +99,26 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
                 }
             }
             else{
-                alert("Something went wrong. Please check your internet connction and try again. su");
+                alert("Something went wrong. Please check your internet connction and try again.");
                 window.location = $rootScope.baseUrl + "sign-in";
             }
         }, function error(response) {
-            alert("Something went wrong. Please check your internet connction and try again. fa");
+            alert("Something went wrong. Please check your internet connction and try again.");
             window.location = $rootScope.baseUrl + "sign-in";
         });
     }
+
+    ctrl.toggleShowPassword = function(){
+      if(!ctrl.showPassword){
+        ctrl.showPassword = true;
+      }
+      else{
+        ctrl.showPassword = false;
+      }
+    }
+
+    ctrl.refreshStatus = function(){
+      ctrl.status = "";
+    }
+
 });
