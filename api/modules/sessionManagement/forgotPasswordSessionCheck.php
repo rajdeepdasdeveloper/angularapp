@@ -20,6 +20,7 @@ if(!empty($data->usernameSession)){
         	echo '{';
                 echo '"message": {'; 
                     echo '"username": "' . $_SESSION[$data->usernameSession] . '"';
+                echo '}';
             echo '}';
         }
         else{
