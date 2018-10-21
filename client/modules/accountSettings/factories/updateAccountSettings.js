@@ -23,7 +23,11 @@ accountSettings.factory('updateAccountSettings', function($rootScope, $http, $lo
                     ctrl.firstname = "";
                     ctrl.lastname = "";
                     ctrl.password = "";
-                    ctrl.repassword = "";
+                    ctrl.rePassword = "";
+                    ctrl.formName.first_name.$setPristine();
+                    ctrl.formName.last_name.$setPristine();
+                    ctrl.formName.password.$setPristine();
+                    ctrl.formName.rePassword.$setPristine();
                      $timeout(function(){
                         $location.url('/dashboard');
                      }, 3000)

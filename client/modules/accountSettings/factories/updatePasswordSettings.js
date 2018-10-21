@@ -18,27 +18,29 @@ accountSettings.factory('updatePasswordSettings', function($rootScope, $http, $l
         .then(function success(response) {
             if(response.data){
                 ctrl.status = response.data.message;
-                if(response.data.message == "1"){
-                    ctrl.oldPassword = "";
+                if(response.data.message == "1"){ // Successfull
+                    ctrl.oldPassword = ""
                     ctrl.newPassword = "";
                     ctrl.rePassword = "";
-                    
+                    ctrl.changePasswordForm.password.$setPristine();
+                    ctrl.changePasswordForm.newPassword.$setPristine();
+                    ctrl.changePasswordForm.rePassword.$setPristine();
                 }
-                if(response.data.message == "2"){
+                else if(response.data.message == "2"){ // Unsccessfull
                 	alert("There might be something wrong with the server. Please try again after sometime.");
                 	window.location = $rootScope.baseUrl + "sign-in";
                 }
-                else if(response.data.message == "3"){
+                else if(response.data.message == "3"){ // Wrong Password
                 	ctrl.oldPassword = "";
-                    ctrl.formName.password.$setPristine();
+                    ctrl.changePasswordForm.password.$setPristine();
                 }
             }
             else{
-                alert("Something went wrong. Please check your internet connction and try again. su");
+                alert("Something went wrong. Please check your internet connction and try again");
                 window.location = $rootScope.baseUrl + "sign-in";
             }
         }, function error(response) {
-            alert("Something went wrong. Please check your internet connction and try again. fa");
+            alert("Something went wrong. Please check your internet connction and try again.");
             window.location = $rootScope.baseUrl + "sign-in";
         });
     }

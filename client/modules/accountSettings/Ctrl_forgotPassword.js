@@ -13,7 +13,30 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	ctrl.spam_protection = "";
 	ctrl.status = "";
 	ctrl.disabled = false;
-	ctrl.recoveryLink = false;
+	ctrl.nextStep = false;
+
+	var sessionCredentials = [{
+		usernameSession : 'forgotPasswordUsername'
+	}];
+
+	$http({
+	    method : "JSON",
+	    data : sessionCredentials[0],
+	    url : $rootScope.apiURL + "accountSettings/forgotPasswordSessionCheck.php",
+	    headers: {'Content-Type' : 'application/json'}
+	})
+	.then(function success(response) {
+	    if(response.data){
+	        if(typeof response.data.message === 'object'){
+	            if (typeof(Storage) !== "undefined") {
+	                ctrl.email = response.data.message.username;
+	                ctrl.nextStep = true;
+				}
+	        }
+	    }
+	}, function error(response) {
+	    alert("Something went wrong. Please check your internet connction and try again.");
+	});
 
 	ctrl.sendPasswordRecoveryMail = function(){
 		ctrl.disabled = true;
@@ -31,22 +54,22 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
 	    	if(response.data){
 	    		ctrl.status = response.data.message;
 	    		if(response.data.message == "1"){ // Successful
-	    			ctrl.recoveryLink = true;
+	    			ctrl.nextStep = true;
 	    		}
 	    		else if(response.data.message == "2"){ // Unsuccessful (Username does not exist)
-	    			ctrl.recoveryLink = false;
+	    			ctrl.nextStep = false;
 	    		}
 	    		else if(response.data.message == "3"){ // Unsuccessful (Inactive User)
-	    			ctrl.recoveryLink = false;
+	    			ctrl.nextStep = false;
 	    		}
 	    		else if(response.data.message == "0"){ //  Unsuccessful (Server Problem)
-	    			ctrl.recoveryLink = false;
+	    			ctrl.nextStep = false;
 	    		}
 	        }
 	        ctrl.disabled = false;
 	    }, 
 	    function error(response) {
-	    	ctrl.recoveryLink = false;
+	    	ctrl.nextStep = false;
 	    	ctrl.status = "0";
 	    });	
 

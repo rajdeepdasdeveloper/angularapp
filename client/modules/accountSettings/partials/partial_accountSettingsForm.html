@@ -28,11 +28,11 @@
 		<input id="rePassword" ng-change="CtrlAs_accountSettings.refreshStatus()" name="rePassword" class="form-control" ng-model="CtrlAs_accountSettings.rePassword" type="password" placeholder="Re-enter your password" ng-attr-type="{{ CtrlAs_accountSettings.showPassword ? 'text':'password'}}" match-password="CtrlAs_accountSettings.password" required>
 		<p ng-if="CtrlAs_accountSettings.formName.rePassword.$dirty && CtrlAs_accountSettings.formName.rePassword.$error.required" class="help-block">Confirm password is required.</p>
         <p ng-if="CtrlAs_accountSettings.formName.rePassword.$error.matchPassword && !CtrlAs_accountSettings.formName.rePassword.$pristine && !CtrlAs_accountSettings.formName.rePassword.$error.required" class="help-block">Confirm password didn't match.</p>
-		<input type="button" value="Show password" ng-attr-value="{{ CtrlAs_accountSettings.showPassword ? 'Hide password':'Show password'}}" ng-click="CtrlAs_accountSettings.toggleShowPassword()" />
+		<input type="button" value="Show password" ng-attr-value="{{CtrlAs_accountSettings.showPassword ? 'Hide password':'Show password'}}" ng-click="CtrlAs_accountSettings.toggleShowPassword()" />
 
 	</div>
 	<div class="form-group">
-		<input id="signUp_button" class="btn" type="submit" value="Sign In" ng-click="CtrlAs_accountSettings.updateBasicAccountSettings()" ng-disabled="CtrlAs_accountSettings.formName.$invalid">
+		<input id="signUp_button" class="btn" type="submit" value="Change Settings" ng-click="CtrlAs_accountSettings.updateBasicAccountSettings()" ng-disabled="CtrlAs_accountSettings.formName.$invalid">
 	</div>
 	<div class="email-exists-message success" ng-if='CtrlAs_accountSettings.status == "1"'>Account settings updated successfully.</div>
 	<div class="email-exists-message error" ng-if='CtrlAs_accountSettings.status == "2"'>Something went wrong. Please check your internet connction and try again.</div>
