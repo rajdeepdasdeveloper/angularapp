@@ -106,12 +106,11 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
                 ctrl.status = response.data.message;
                 if(response.data.message == "1"){
                     ctrl.recoveryCode = "";
-				    ctrl.reNewForgotPassword = "";
+				    ctrl.newForgotPassword = "";
 					ctrl.reNewForgotPassword = "";
 					ctrl.changeForgotPasswordForm.recoveryCode.$setPristine();
-					ctrl.changeForgotPasswordForm.password.$setPristine();
-					ctrl.changeForgotPasswordForm.repassword.$setPristine();
-					ctrl.status = response.data.message;
+					ctrl.changeForgotPasswordForm.newForgotPassword.$setPristine();
+					ctrl.changeForgotPasswordForm.reNewForgotPassword.$setPristine();
 					$timeout(function(){
 						$location.url('/sign-in');
 					}, 2000);

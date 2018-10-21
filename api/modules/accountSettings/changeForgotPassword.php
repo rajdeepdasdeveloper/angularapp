@@ -50,10 +50,10 @@ if(!empty($data->username) && !empty($data->recoveryCode) && !empty($data->newFo
 			   			unset($_SESSION["forgotPasswordUsername"]);
 				        unset($_SESSION["settingsToken"]);
 				        unset($_SESSION["settingsTokenAttemt"]);
-				        session_destroy();
-				        die();
 			   		}
 			   	}
+                session_destroy();
+                die();
 			}
 			else{
 				echo '{';
