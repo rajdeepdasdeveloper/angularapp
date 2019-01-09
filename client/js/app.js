@@ -5,6 +5,7 @@ var mainApp = angular.module('coreAppModule',
 	'angular-loading-bar',
 	'Mod_feUserLogIn',
 	'Mod_feUserRegister',
+	'Mod_activateAccount',
 	'Mod_accountSettings',
 	'Mod_header',
 	'Mod_dashboard'
@@ -14,8 +15,8 @@ var mainApp = angular.module('coreAppModule',
 /* Core Controller */
 mainApp.controller('coreAppController', function($scope, $rootScope, $http){
 	var coreAppCtrl = this;
-	$rootScope.baseUrl = "http://angularapp.nickosys.com/";
-	$rootScope.apiURL = "http://angularapp.nickosys.com/api/modules/";
+	$rootScope.baseUrl = "http://angularapp.dev.projects.nickosys.com/";
+	$rootScope.apiURL = "http://angularapp.dev.projects.nickosys.com/api/modules/";
 });
 
 /* Default State Controller */
@@ -87,6 +88,17 @@ mainApp.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 		resolve: {
 			'auth' : function(userSession){
 				return userSession.exists('/dashboard', '/sign-up');
+			}
+		}
+    })
+    .state("activateAccount", {
+        url: "/activate-account",
+        templateUrl: "client/views/view_activateAccount.html",
+		controller: "Ctrl_activateAccount",
+		controllerAs: "CtrlAs_activateAccount",
+		resolve: {
+			'auth' : function(userSession){
+				return userSession.exists('/dashboard', '/activate-account');
 			}
 		}
     })

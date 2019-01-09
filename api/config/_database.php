@@ -3,7 +3,7 @@ class Database{
  
     // Database credentials
     private $host = "localhost";
-    private $db_name = "angularapp";
+    private $db_name = "nickosys_angularapp";
     private $username = "root";
     private $password = "";
     public $conn;

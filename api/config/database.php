@@ -4,8 +4,8 @@ class Database{
     // Database credentials
     private $host = "localhost";
     private $db_name = "nickosys_angularapp";
-    private $username = "nickosys_angular";
-    private $password = "!@#123QWEqwe_";
+    private $username = "root";
+    private $password = "";
     public $conn;
  
     // get the database connection
