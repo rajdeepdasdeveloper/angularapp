@@ -1,8 +1,6 @@
 <div id="activateAccount" ng-if="CtrlAs_activateAccount.show">
 	<div class="activateAccount-wrapper">
 		<h1>Activate Account</h1>
-		<!-- <fe-User-Log-In-Directive></fe-User-Log-In-Directive> -->
-		<!-- <ng-include src="'client/modules/activateAccount/partials/partial_activateAccountForm.html'"></ng-include> -->
 		<div class="basicAccountSettingsWrapper">
 			<form id="activateAccountForm" ng-init="CtrlAs_activateAccount.activateAccountForm='activateAccountForm'" name="CtrlAs_activateAccount.activateAccountForm" autocomplete="off" novalidate>
 		<div class="form-group">
@@ -15,12 +13,6 @@
 			<p ng-if="CtrlAs_activateAccount.activateAccountForm.activisionCode.$dirty && CtrlAs_activateAccount.activateAccountForm.activisionCode.$error.required" class="help-block">Activision Code is required.</p>
 			<p class="error" ng-if="CtrlAs_activateAccount.activateAccountForm.activisionCode.$error.minlength" >Invalid Activision Code.</p>
 		</div>
-		<!-- <div class="form-group">
-			<input id="rePassword" ng-change="CtrlAs_changePassword.refreshStatus()" name="rePassword" class="form-control" ng-model="CtrlAs_changePassword.rePassword" type="password" placeholder="Re-enter your password" ng-attr-type="{{ CtrlAs_changePassword.showPassword ? 'text':'password'}}" match-password="CtrlAs_changePassword.newPassword" required>
-			<p ng-if="CtrlAs_changePassword.changePasswordForm.rePassword.$dirty && CtrlAs_changePassword.changePasswordForm.rePassword.$error.required" class="help-block">Confirming your new password is required.</p>
-        	<p ng-if="CtrlAs_changePassword.changePasswordForm.rePassword.$error.matchPassword && !CtrlAs_changePassword.changePasswordForm.rePassword.$pristine && !CtrlAs_changePassword.changePasswordForm.rePassword.$error.required" class="help-block">Confirm password didn't match</p>
-        <input type="button" value="Show password" ng-attr-value="{{ CtrlAs_changePassword.showPassword ? 'Hide password':'Show password'}}" ng-click="CtrlAs_changePassword.toggleShowPassword()">
-		</div> -->
 		<div class="hidden">
 			<input type="text" autocomplete="false" name="spamprotection" ng-model="CtrlAs_activateAccount.spam_protection">
 		</div>
