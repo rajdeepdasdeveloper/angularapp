@@ -4,7 +4,7 @@ activateAccount.controller('Ctrl_activateAccount', function($scope, auth, userSe
 	
 	var ctrl = this;
 	ctrl.show = false;
-	ctrl.status = "";
+	ctrl.status = "10";
 	ctrl.email = "";
   	ctrl.activisionCode = "";
   	ctrl.spam_protection = "";
