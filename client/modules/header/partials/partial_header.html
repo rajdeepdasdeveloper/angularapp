@@ -1,12 +1,11 @@
-<header id="header">
-	<div class="container">
-		<h2>Header</h2>
-		<a ng-if="CtrlAs_header.current == 'accountSettings.changePassword'" href="" ui-sref="accountSettings">Account Settings</a>
-		<a ng-if="CtrlAs_header.current == 'dashboard'" href="" ui-sref="accountSettings">Account Settings</a>
-		<a ng-if="CtrlAs_header.current == 'accountSettings'" href="" ui-sref="accountSettings.changePassword">Change Password</a>
+
+<header id="header" class="form-group">
+	<div class="form-group"></div>
+		<a class="btn md" ng-if="CtrlAs_header.current == 'accountSettings.changePassword'" href="" ui-sref="accountSettings">Account Settings</a>
+		<a class="btn md" ng-if="CtrlAs_header.current == 'dashboard'" href="" ui-sref="accountSettings">Account Settings</a>
+		<a class="btn md" ng-if="CtrlAs_header.current == 'accountSettings'" href="" ui-sref="accountSettings.changePassword">Change Password</a>
 		<!-- <a ng-if="CtrlAs_header.current == 'accountSettings'" href="" ui-sref="accountSettings.changePassword">Change Password</a> -->
-		<a ng-if="CtrlAs_header.current != 'dashboard'" href="" ui-sref="dashboard">Dashboard</a>
+		<a class="btn md" ng-if="CtrlAs_header.current != 'dashboard'" href="" ui-sref="dashboard">Dashboard</a>
 		<!-- <a ng-if="CtrlAs_header.current != 'dashboard'" href="" ui-sref="accountSettings.changePassword">Change password</a> -->
-		<input type="button" ng-click="CtrlAs_header.logout()" value="Logout">
-	</div>
+		<input class="btn md" type="button" ng-click="CtrlAs_header.logout()" value="Logout">
 </header>

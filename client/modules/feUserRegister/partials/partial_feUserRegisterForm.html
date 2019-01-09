@@ -31,10 +31,10 @@
     	<p ng-if="feUserRegistrationForm.rePassword.$error.matchPassword && !feUserRegistrationForm.rePassword.$pristine && !feUserRegistrationForm.rePassword.$error.required" class="help-block">Confirm password didn't match</p>
     </div>
     <div class="form-group">
-        <input type="button" value="Show password" ng-attr-value="{{CtrlAs_feUserRegister.showPassword ? 'Hide password':'Show password'}}" ng-click="CtrlAs_feUserRegister.toggleShowPassword()">
+        <input class="btn sm" type="button" value="Show password" ng-attr-value="{{CtrlAs_feUserRegister.showPassword ? 'Hide password':'Show password'}}" ng-click="CtrlAs_feUserRegister.toggleShowPassword()">
 	</div>
 	<div class="form-group">
-		<input id="signUp_button" class="btn" type="submit" value="Sign In" ng-click="CtrlAs_feUserRegister.register()" ng-disabled="feUserRegistrationForm.$invalid || CtrlAs_feUserRegister.disabled">
+		<input id="signUp_button" class="btn lg" type="submit" value="Sign Up" ng-click="CtrlAs_feUserRegister.register()" ng-disabled="feUserRegistrationForm.$invalid || CtrlAs_feUserRegister.disabled">
 	</div>
 	<div class="email-exists-message success" ng-if="CtrlAs_feUserRegister.status == 1">Congratulations! You have successfully signed up. Please wait while we take you to the account activision section.</div>
 	<div class="email-exists-message error" ng-if="CtrlAs_feUserRegister.status == 2">Something went wrong. Please check your internet connction and try again.</div>

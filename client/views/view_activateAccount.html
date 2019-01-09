@@ -1,4 +1,4 @@
-<div id="activateAccount" ng-if="CtrlAs_activateAccount.show">
+<div id="activateAccount" ng-if="CtrlAs_activateAccount.show" class="container">
 	<div class="activateAccount-wrapper">
 		<h1>Activate Account</h1>
 		<div class="basicAccountSettingsWrapper">
@@ -17,8 +17,8 @@
 			<input type="text" autocomplete="false" name="spamprotection" ng-model="CtrlAs_activateAccount.spam_protection">
 		</div>
 		<div class="form-group">
-			<input id="signUp_button" class="btn" type="submit" value="Change Password" ng-click="CtrlAs_activateAccount.activateAccount()" ng-disabled="CtrlAs_activateAccount.activateAccountForm.$invalid">
-			<input id="resendCode_button" class="btn" type="button" value="Resend Activision Code" ng-click="CtrlAs_activateAccount.resendActivisionCode()" ng-disabled="CtrlAs_activateAccount.activateAccountForm.email.$invalid">
+			<input class="btn lg" id="signUp_button" class="btn" type="submit" value="Activate Account" ng-click="CtrlAs_activateAccount.activateAccount()" ng-disabled="CtrlAs_activateAccount.activateAccountForm.$invalid">
+			<input class="btn sm" id="resendCode_button" class="btn" type="button" value="Resend Activision Code" ng-click="CtrlAs_activateAccount.resendActivisionCode()" ng-disabled="CtrlAs_activateAccount.activateAccountForm.email.$invalid">
 		</div>
 		<div class="email-exists-message success" ng-if="CtrlAs_activateAccount.status == 1">Account settings updated successfully. Please wait while we take you to the login page.</div>
 		<div class="email-exists-message error" ng-if="CtrlAs_activateAccount.status == 0">Invalid activision code.</div>
@@ -28,7 +28,7 @@
 	</form>
 		</div>
 	</div>
-	<a href="" ui-sref="registration">Register</a>
-	<a href="" ui-sref="login">Login</a>
-	<a href="" ui-sref="forgotPassword">Forgot password?</a>
+	<a class="btn md" href="" ui-sref="registration">Register</a>
+	<a class="btn md" href="" ui-sref="login">Login</a>
+	<a class="btn md" href="" ui-sref="forgotPassword">Forgot password?</a>
 </div>
