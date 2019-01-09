@@ -23,7 +23,7 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
 			password : ctrl.password,
 			spam_protection : ctrl.spam_protection
 		}];
-
+		
 		loginAuthOperation.loginAuth(loginCredentials, ctrl);
 	}
 

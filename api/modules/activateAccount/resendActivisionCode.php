@@ -49,7 +49,7 @@ if(!empty($data->username) && empty($data->spam_protection)){
         }
         else{
             echo '{';
-                echo '"message": "0"'; // Unsuccessful
+                echo '"message": "0"'; // User already active
             echo '}';
         }
     }

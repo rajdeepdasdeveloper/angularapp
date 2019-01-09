@@ -34,7 +34,7 @@ if(!empty($data->username) && empty($data->spam_protection)){
 	$person->username = $data->username;
 	if($person->usernameCheck()){
 		if($person->userStatusCheck()){
-			$token = substr(str_shuffle("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_") , 0, 32);
+			$token = substr(str_shuffle("1234567890") , 0, 6);
 			$stmt = $person->sendPasswordRecoveryLink($token);
 			if($stmt){
 				if($stmt = $person->getBasicData()){

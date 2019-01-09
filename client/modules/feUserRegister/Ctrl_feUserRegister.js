@@ -34,15 +34,6 @@ feUserRegister.controller('Ctrl_feUserRegister', function(auth, userSession, $ro
 		}];
 		
 		registerOperation.register(newUser, ctrl);
-
-		/*newUser = JSON.stringify(newUser);
-		if(!localStorage.feUser){
-			localStorage.setItem("feUser", newUser);
-		}
-		else{
-			localStorage.setItem("feUser", localStorage.feUser + ", " +newUser);
-		}
-		$location.path('/dashboard');*/
 	}
 
 	ctrl.toggleShowPassword = function(){

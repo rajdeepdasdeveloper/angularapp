@@ -23,33 +23,52 @@ $person = new Person($db);
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-if(!empty($data->username) && empty($data->spam_protection)){
+if(!empty($data->username) && empty($data->spam_protection) && !empty($data->activisionCode)){
 
     // set product property values
     $person->username = $data->username;
-    $person->password = $data->password;
-    $person->first_name = $data->first_name;
-    $person->last_name = $data->last_name;
-    $person->create_date = time();
+    $person->activisionCode = $data->activisionCode;
 
     if($person->usernameCheck()){
-        echo '{';
-            echo '"message": "3"'; // Username already Exists
-        echo '}';
-        die();
-    }
-    else{
-        if($person->register()){
-            echo '{';
-                echo '"message": "1"'; // Success
-            echo '}';
+        $stmt = $person->getActivisionCode();
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            // extract row
+            // this will make $row['name'] to
+            // just $name only
+                extract($row);
+                $activisionCode = array(
+                    "activision_code" => $activision_code,
+                );
+            }
+        if(!$person->userStatusCheck()){
+            if( $activisionCode['activision_code'] == $person->activisionCode){
+                if($person->updateUserActivisionStatus()){
+                    echo '{';
+                        echo '"message": "1"'; // Activision Successful
+                    echo '}';
+                }
+                else{
+                    echo '{';
+                        echo '"message": "4"'; // Server Error
+                    echo '}';
+                }
+            }
+            else{
+                echo '{';
+                    echo '"message": "0"'; // Invalid Activision Code
+                echo '}';
+            }
         }
-        // if unable to create the Person
         else{
             echo '{';
-                echo '"message": "0"'; // Unsuccessful
+                echo '"message": "2"'; // Username is Already Active
             echo '}';
         }
+    }
+    else{
+        echo '{';
+            echo '"message": "3"'; // Username Doesnt Exists
+        echo '}'; 
     }
 }
 else{

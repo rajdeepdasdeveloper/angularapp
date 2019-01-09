@@ -1,4 +1,4 @@
-feUserRegister.factory('registerOperation', function($rootScope, $http) {
+feUserRegister.factory('registerOperation', function($rootScope, $http, $timeout, $location) {
 
     var factory = {}; 
 
@@ -14,6 +14,11 @@ feUserRegister.factory('registerOperation', function($rootScope, $http) {
             if(response.data){
                 ctrl.status = response.data.message;
                 ctrl.disabled = false;
+                if(response.data.message == "1"){
+                    $timeout(function(){ 
+                        $location.url('/activate-account');
+                    }, 3000);
+                }
             }
             else{
                 alert("Something went wrong. Please check your internet connction and try again");

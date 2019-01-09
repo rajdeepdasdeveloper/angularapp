@@ -15,6 +15,7 @@ class Person{
     public $last_name;
     public $create_date;
     public $last_login;
+    public $activisionCode;
  
     // Constructor with $db as database connection
     public function __construct($db){
@@ -141,9 +142,9 @@ class Person{
             $email_message .= "Your Account Activision Code: " . "\n";
             $email_message .= $token;
             $email_to = $this->username;
-            $email_subject = "Password Recovery";
-            $headers = 'From: '. "angularapp.nickosys" ."\r\n".
-            'Reply-To: '. "angularapp.nickosys" ."\r\n" .
+            $email_subject = "Account Activision Code";
+            $headers = 'From: '. "angularapp.dev.projects.nickosys.com" ."\r\n".
+            'Reply-To: '. "angularapp.dev.projects.nickosys.com" ."\r\n" .
             'X-Mailer: PHP/' . phpversion();
             if(@mail($email_to, $email_subject, $email_message, $headers)){
                 return true;
@@ -337,7 +338,49 @@ class Person{
         else{
             return false;
         }     
+    }
 
+    // UPDATE USER ACTIVISION STATUS 
+    function updateUserActivisionStatus(){
+        // query to insert record
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                user_status = :user_status 
+            WHERE
+                username = :username";
+        $query = str_replace("\'","",$query);
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+     
+        $this->username=htmlspecialchars(strip_tags($this->username));
+        
+        $user_status = "1";
+        $stmt->bindParam(":username", $this->username);
+        $stmt->bindParam(":user_status", $user_status);
+     
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // GET ACTIVISION CODE
+    function getActivisionCode(){
+        $query = "SELECT `activision_code` FROM " . $this->table_name . " WHERE `username` = ?" ; 
+        $query = str_replace("\'","",$query);
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(1, $this->username);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            return $stmt;
+        }
+        else{
+            return false;
+        }
     }
 
     // GET SALT VALUE AND PASSWORD

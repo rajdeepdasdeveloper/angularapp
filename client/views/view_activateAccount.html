@@ -28,8 +28,11 @@
 			<input id="signUp_button" class="btn" type="submit" value="Change Password" ng-click="CtrlAs_activateAccount.activateAccount()" ng-disabled="CtrlAs_activateAccount.activateAccountForm.$invalid">
 			<input id="resendCode_button" class="btn" type="button" value="Resend Activision Code" ng-click="CtrlAs_activateAccount.resendActivisionCode()" ng-disabled="CtrlAs_activateAccount.activateAccountForm.email.$invalid">
 		</div>
-		<div class="email-exists-message success" ng-if="CtrlAs_changePassword.status == 1">Account settings updated successfully.</div>
-		<div class="email-exists-message error" ng-if="CtrlAs_changePassword.status == 2">Something went wrong. Please check your internet connction and try again.</div>
+		<div class="email-exists-message success" ng-if="CtrlAs_activateAccount.status == 1">Account settings updated successfully. Please wait while we take you to the login page.</div>
+		<div class="email-exists-message error" ng-if="CtrlAs_activateAccount.status == 0">Invalid activision code.</div>
+		<div class="email-exists-message error" ng-if="CtrlAs_activateAccount.status == 2">This account is already active.</div>
+		<div class="email-exists-message error" ng-if="CtrlAs_activateAccount.status == 3">This account does not exist.</div>
+		<div class="email-exists-message success" ng-if="CtrlAs_activateAccount.status == 5">Activision code send successfully to your email.</div>
 	</form>
 		</div>
 	</div>
