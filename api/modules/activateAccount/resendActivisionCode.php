@@ -27,31 +27,32 @@ if(!empty($data->username) && empty($data->spam_protection)){
 
     // set product property values
     $person->username = $data->username;
-
-    if($person->userStatusCheck()){
-        echo '{';
-            echo '"message": "3"'; // User account already active
-        echo '}';
-        die();
-    }
-    else{
-        if(!$person->userStatusCheck()){
-            if($person->sendActivisionCode()){
-                echo '{';
-                    echo '"message": "1"'; // Success
-                echo '}';
-            }
-            else{
-                echo '{';
-                    echo '"message": "0"'; // Unsuccessful
-                echo '}';
-            }
+    if($person->usernameCheck()){
+        if($person->userStatusCheck()){
+            echo '{';
+                echo '"message": "2"'; // User account already active
+            echo '}';
+            die();
         }
         else{
-            echo '{';
-                echo '"message": "0"'; // User already active
-            echo '}';
+            if(!$person->userStatusCheck()){
+                if($person->sendActivisionCode()){
+                    echo '{';
+                        echo '"message": "5"'; // Success
+                    echo '}';
+                }
+                else{
+                    echo '{';
+                        echo '"message": "4"'; // Server Error
+                    echo '}';
+                }
+            }
         }
+    }
+    else{
+        echo '{';
+            echo '"message": "3"'; // Username doest not exist
+        echo '}';
     }
 }
 else{

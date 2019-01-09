@@ -27,10 +27,10 @@ activateAccount.controller('Ctrl_activateAccount', function($scope, auth, userSe
 	    .then(function success(response) {
 	      	if(response.data){
 				if(response.data){
-				if(response.data.message == "5"){
+				if(response.data.message == "5"){ // Code Sent successfully
 				 	ctrl.status = response.data.message;
 				}
-				else if(response.data.message == "3"){
+				else if(response.data.message == "3"){ // Username Doesnt Exists
 					ctrl.status = response.data.message;
 				}
 				else if(response.data.message == "4"){
