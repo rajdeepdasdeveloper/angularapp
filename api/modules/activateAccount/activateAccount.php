@@ -23,7 +23,7 @@ $person = new Person($db);
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-if(!empty($data->username) && !empty($data->password) && !empty($data->first_name) && !empty($data->last_name) && empty($data->spam_protection)){
+if(!empty($data->username) && empty($data->spam_protection)){
 
     // set product property values
     $person->username = $data->username;
@@ -39,7 +39,7 @@ if(!empty($data->username) && !empty($data->password) && !empty($data->first_nam
         die();
     }
     else{
-        if($person->register() && $person->sendActivisionCode()){
+        if($person->register()){
             echo '{';
                 echo '"message": "1"'; // Success
             echo '}';

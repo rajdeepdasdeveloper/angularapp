@@ -91,7 +91,7 @@ class Person{
 
         // All user status is ACTVIE for now
 
-         $user_status = "1";
+        $user_status = "0";
 
         // bind values
         $stmt->bindParam(":username", $this->username);
@@ -101,6 +101,85 @@ class Person{
         $stmt->bindParam(":create_date", $this->create_date);
         $stmt->bindParam(":salt_value", $random_salt);
         $stmt->bindParam(":user_status", $user_status);
+     
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // Send Activision Code
+
+    // Activate Account
+
+    function sendActivisionCode(){
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                activision_code = :activision_code
+            WHERE
+                username = :username";
+                
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+     
+        // sanitize
+        $this->username=htmlspecialchars(strip_tags($this->username));
+        $token = substr(str_shuffle("1234567890") , 0, 6);
+
+        // bind values
+        $stmt->bindParam(":username", $this->username);
+        $stmt->bindParam(":activision_code", $token);
+        
+     
+        // execute query
+        if($stmt->execute()){
+            $email_message = "";
+            $email_message .= "Your Account Activision Code: " . "\n";
+            $email_message .= $token;
+            $email_to = $this->username;
+            $email_subject = "Password Recovery";
+            $headers = 'From: '. "angularapp.nickosys" ."\r\n".
+            'Reply-To: '. "angularapp.nickosys" ."\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+            if(@mail($email_to, $email_subject, $email_message, $headers)){
+                return true;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    // Activate Account
+
+    function activateAccount(){
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                first_name = :first_name, last_name = :last_name
+            WHERE
+                username = :username";
+                
+        // prepare query
+        $stmt = $this->conn->prepare($query);
+     
+        // sanitize
+        $this->username=htmlspecialchars(strip_tags($this->username));
+        $this->password=htmlspecialchars(strip_tags($this->password));
+
+        // Salt Papper BCRYPT Hashing
+        $random_salt = substr(str_shuffle($this->salt_characters), 0, 15);
+        $this->password_hash = $random_salt . $this->password . "!@#$%^&*()";
+        $this->password_hash = password_hash($this->password_hash, PASSWORD_BCRYPT, array('cost' => 11));
+        
+        // bind values
+        $stmt->bindParam(":username", $this->username);
+        $stmt->bindParam(":password_hash", $this->password_hash);
+        $stmt->bindParam(":salt_value", $random_salt);
      
         // execute query
         if($stmt->execute()){

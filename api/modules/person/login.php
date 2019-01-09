@@ -83,7 +83,6 @@ if(!empty($data->username) && !empty($data->password) && empty($data->spam_prote
             if($_SESSION){
                 session_destroy();
             }
-            session_start();
             $_SESSION["username"] = $person_details['username'];
             $_SESSION["token"] = $token;
 

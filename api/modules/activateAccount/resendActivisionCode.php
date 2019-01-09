@@ -23,28 +23,30 @@ $person = new Person($db);
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
-if(!empty($data->username) && !empty($data->password) && !empty($data->first_name) && !empty($data->last_name) && empty($data->spam_protection)){
+if(!empty($data->username) && empty($data->spam_protection)){
 
     // set product property values
     $person->username = $data->username;
-    $person->password = $data->password;
-    $person->first_name = $data->first_name;
-    $person->last_name = $data->last_name;
-    $person->create_date = time();
 
-    if($person->usernameCheck()){
+    if($person->userStatusCheck()){
         echo '{';
-            echo '"message": "3"'; // Username already Exists
+            echo '"message": "3"'; // User account already active
         echo '}';
         die();
     }
     else{
-        if($person->register() && $person->sendActivisionCode()){
-            echo '{';
-                echo '"message": "1"'; // Success
-            echo '}';
+        if(!$person->userStatusCheck()){
+            if($person->sendActivisionCode()){
+                echo '{';
+                    echo '"message": "1"'; // Success
+                echo '}';
+            }
+            else{
+                echo '{';
+                    echo '"message": "0"'; // Unsuccessful
+                echo '}';
+            }
         }
-        // if unable to create the Person
         else{
             echo '{';
                 echo '"message": "0"'; // Unsuccessful

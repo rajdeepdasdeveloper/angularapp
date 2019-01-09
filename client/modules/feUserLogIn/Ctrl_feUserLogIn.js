@@ -1,6 +1,6 @@
 var feUserLogIn = angular.module('Mod_feUserLogIn', ['ui.router']);
 
-feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScope, $location, loginAuthOperation, $http, $location /*, $state, $stateParams, feUserRegister_Factory, $parse */){
+feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScope, $location, loginAuthOperation, $http /*, $state, $stateParams, feUserRegister_Factory, $parse */){
 	
 	var ctrl = this;
 	ctrl.show = false;
