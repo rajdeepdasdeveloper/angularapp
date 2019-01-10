@@ -80,7 +80,7 @@ if(!empty($data->username) && !empty($data->password) && empty($data->spam_prote
             $token = substr(str_shuffle("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_") , 0, 32);
 
             session_start();
-            if($_SESSION){
+            if($_SESSION["username"] || $_SESSION["token"]){
                 session_destroy();
             }
             $_SESSION["username"] = $person_details['username'];
