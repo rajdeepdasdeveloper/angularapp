@@ -18,7 +18,7 @@
 				<input id="spam_protection" class="form-control" ng-model="CtrlAs_feUserLogIn.spam_protection" type="text" placeholder="spam_protection">
 			</div>
 			<div class="form-group checkbox">
-				<label><input ng-change="CtrlAs_feUserLogIn.rememberMe()" ng-model="CtrlAs_feUserLogIn.rememberMeValue" ng-checked="CtrlAs_feUserLogIn.rememberMeValue == 1 " type="checkbox" value="1" /> Remember me</label>
+				<label><input ng-change="CtrlAs_feUserLogIn.rememberMe()" ng-model="CtrlAs_feUserLogIn.rememberMeValue" type="checkbox" value="1" /> Remember me</label>
 			</div>
 			<div class="form-group">
 				<input id="signIn_button" class="btn lg" type="submit" value="Sign In" ng-click="CtrlAs_feUserLogIn.login()" ng-disabled="!feUserLoginForm.$valid || CtrlAs_feUserLogIn.disabled"> <a class="btn sm" href="" ui-sref="forgotPassword">Forgot password?</a>

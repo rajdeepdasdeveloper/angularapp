@@ -45,6 +45,14 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
 		ctrl.rememberMeValue = "";
 	}
 	
+	if (typeof(Storage) !== "undefined") {
+		if (localStorage.getItem("username")){
+        	ctrl.email = localStorage.getItem("username");
+        }
+        else {
+        	localStorage.removeItem('token');
+    	}
+    } 
 
 	ctrl.email = "";
 	ctrl.password = "";
@@ -79,7 +87,8 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
             	localStorage.setItem("remember_me", "1");
             }
             else {
-            	localStorage.clear();
+            	localStorage.removeItem('remember_me');
+            	localStorage.removeItem('token');
         	}
         } 
     }
