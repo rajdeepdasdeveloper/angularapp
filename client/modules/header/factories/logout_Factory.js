@@ -18,7 +18,8 @@ header.factory('logout_Factory', function($rootScope, $http, $location) {
 	    .then(function success(response) {
 	        if(response.data){
 	            if(response.data.message == "1"){
-	            	localStorage.clear();
+	            	localStorage.removeItem('username');
+	            	localStorage.removeItem('token');
 	            	$location.url('/login');
 	       		}
 	       		else if(response.data.message == "0"){

@@ -397,6 +397,45 @@ class Person{
             return false;
         }
     }
+
+    // GET USER TOKEN 
+    function getUserToken(){
+        $query = "SELECT `user_token` FROM " . $this->table_name . " WHERE `username` = ?" ; 
+        $query = str_replace("\'","",$query);
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(1, $this->username);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            return $stmt;
+        }
+        else{
+            return false;
+        }
+    }
+
+    // SET USER TOKEN
+     function setUserToken($username, $token){
+        $query = "UPDATE
+                " . $this->table_name . "
+            SET
+                user_token = :user_token
+            WHERE
+                username = :username";
+
+        $stmt = $this->conn->prepare($query);
+
+        // bind values
+        $stmt->bindParam(":username", $username);
+        $stmt->bindParam(":user_token", $token);
+
+        // execute query
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }   
 
 ?>

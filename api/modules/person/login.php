@@ -80,13 +80,16 @@ if(!empty($data->username) && !empty($data->password) && empty($data->spam_prote
             $token = substr(str_shuffle("1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_") , 0, 32);
 
             session_start();
-            if($_SESSION["username"] || $_SESSION["token"]){
+            if(isset($_SESSION["username"]) && isset($_SESSION["token"])){
+                unset($_SESSION['username']);
+                unset($_SESSION['token']);
                 session_destroy();
             }
             $_SESSION["username"] = $person_details['username'];
             $_SESSION["token"] = $token;
 
             if($_SESSION["username"] && $_SESSION["token"]){
+                $person->setUserToken($_SESSION["username"], $_SESSION["token"]);
                 echo '{';
                     echo '"message": {'; 
                         echo '"username": "' . $_SESSION["username"] . '",';

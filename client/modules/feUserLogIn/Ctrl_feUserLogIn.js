@@ -4,10 +4,47 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
 	
 	var ctrl = this;
 	ctrl.show = false;
+	ctrl.sessionCheck = function(){
+		// {#--- SESSION AUTHENTICATION 
+		userSession.publicPages(auth, ctrl);
+    	// SESSION AUTHENTICATION ---#}
+	}
 
-	// {#--- SESSION AUTHENTICATION 
-	userSession.publicPages(auth, ctrl);
-    // SESSION AUTHENTICATION ---#}
+	if (typeof(Storage) !== "undefined") {
+		if(localStorage.getItem("remember_me") == "1"){
+			ctrl.rememberMeValue = localStorage.getItem('remember_me');
+			if(localStorage.getItem('username') && localStorage.getItem('token')){
+				var loginCredentials = [{
+					username : localStorage.getItem('username'),
+					token : localStorage.getItem('token'),
+				}];
+				$http({
+		            method : "JSON",
+		            data : loginCredentials[0],
+		            url : $rootScope.apiURL + "person/remember_Me.php",
+		            headers: {'Content-Type' : 'application/json'}
+		        })
+		        .then(function success(response) {
+		        	if(response.data.message == '1'){
+                        $location.url('/dashboard');
+		            }
+		            else{
+						ctrl.sessionCheck();
+		            }
+		        }, function error(response) {});
+			}
+			else{
+				ctrl.sessionCheck();
+			}
+		}
+		else if(localStorage.getItem("remember_me") != "1"){
+			ctrl.sessionCheck();
+		}
+	}
+	else{
+		ctrl.rememberMeValue = "";
+	}
+	
 
 	ctrl.email = "";
 	ctrl.password = "";
@@ -34,6 +71,17 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
       else{
         ctrl.showPassword = false;
       }
+    }
+
+    ctrl.rememberMe = function(){
+    	if (typeof(Storage) !== "undefined") {
+    		if (ctrl.rememberMeValue == "1"){
+            	localStorage.setItem("remember_me", "1");
+            }
+            else {
+            	localStorage.clear();
+        	}
+        } 
     }
 
 	/*if(localStorage.feUser){

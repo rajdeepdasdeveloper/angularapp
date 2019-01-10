@@ -16,7 +16,7 @@ var mainApp = angular.module('coreAppModule',
 mainApp.controller('coreAppController', function($scope, $rootScope, $http){
 	var coreAppCtrl = this;
 	$rootScope.baseUrl = "http://angularapp.dev.projects.nickosys.com";
-	$rootScope.apiURL = "http://angularapp.dev.projects.nickosys.com/api/modules/";
+	$rootScope.apiURL = "http://angularapp.dev.projects.nickosys.com/api/modules/"; // /api/modules/
 });
 
 /* Default State Controller */
