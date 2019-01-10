@@ -54,7 +54,6 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
     	}
     } 
 
-	ctrl.email = "";
 	ctrl.password = "";
 	ctrl.spam_protection = "";
 	ctrl.disabled = false;

@@ -19,15 +19,15 @@ header.factory('logout_Factory', function($rootScope, $http, $location) {
 	        if(response.data){
 	            if(response.data.message == "1"){
 	            	localStorage.removeItem('token');
-	            	$location.url('/login');
+	            	$location.url('/sign-in');
 	       		}
 	       		else if(response.data.message == "0"){
-	       			$location.url('/login');
+	       			$location.url('/sign-in');
 	       		}
 	        }
 	    }, 
 	    function error(response) {
-	       $location.url('/login');
+	       $location.url('/');
 	    });
 	};
 
