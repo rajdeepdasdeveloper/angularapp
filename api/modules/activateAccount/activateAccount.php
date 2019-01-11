@@ -31,15 +31,15 @@ if(!empty($data->username) && empty($data->spam_protection) && !empty($data->act
 
     if($person->usernameCheck()){
         $stmt = $person->getActivisionCode();
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            // extract row
-            // this will make $row['name'] to
-            // just $name only
-                extract($row);
-                $activisionCode = array(
-                    "activision_code" => $activision_code,
-                );
-            }
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        // extract row
+        // this will make $row['name'] to
+        // just $name only
+            extract($row);
+            $activisionCode = array(
+                "activision_code" => $activision_code,
+            );
+        }
         if(!$person->userStatusCheck()){
             if( $activisionCode['activision_code'] == $person->activisionCode){
                 if($person->updateUserActivisionStatus()){
