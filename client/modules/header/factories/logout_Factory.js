@@ -19,6 +19,7 @@ header.factory('logout_Factory', function($rootScope, $http, $location) {
 	        if(response.data){
 	            if(response.data.message == "1"){
 	            	localStorage.removeItem('token');
+	            	localStorage.removeItem('remember_me');
 	            	$location.url('/sign-in');
 	       		}
 	       		else if(response.data.message == "0"){
