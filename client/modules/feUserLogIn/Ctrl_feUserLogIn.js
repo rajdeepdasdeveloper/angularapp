@@ -13,7 +13,7 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
 	if (typeof(Storage) !== "undefined") {
 		if(localStorage.getItem("remember_me")){
 			ctrl.rememberMeValue = localStorage.getItem('remember_me');
-			if(localStorage.getItem('username') && localStorage.getItem('token')){
+			if(localStorage.getItem('username') != null && localStorage.getItem('token') != null){
 				var loginCredentials = [{
 					username : localStorage.getItem('username'),
 					token : localStorage.getItem('token'),
