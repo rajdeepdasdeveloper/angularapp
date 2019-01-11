@@ -32,10 +32,26 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;*/
-				display: none !important;
+				position: fixed;
+				left:0 !important;
+				top: 0 !important;
+				z-index: 99999;
+				width: 100vw !important;
+				height: 3px !important;
+				background: repeating-linear-gradient(to right, red 0%, orange 15%, yellow, 35%, indigo 40%, blue 50%, green 75%, red 100%);
+				width: 100%;
+				background-size: 200% auto;
+				background-position: 0 100%;
+				animation: gradient 1s infinite;
+				animation-fill-mode: forwards;
+				animation-timing-function: linear;
 			}
-			.loading-bar-spinner .spinner-icon{
-
+			@keyframes gradient { 
+			  0%   { background-position: 0 0; }
+			  100% { background-position: -200% 0; }
+			}
+			#loading-bar-spinner .spinner-icon{
+				display: none;
 			}
 		</style>
 		<link href="client/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -46,21 +62,6 @@
 		<style>
 			*{
 				outline: none !important;
-			}
-			#loading-bar-spinner{
-				position: fixed;
-				left:0 !important;
-				right: 0 !important;;
-				z-index: 99999;
-				width: 100vw !important;;
-				height: 100vh !important;;
-				background-color: rgba(255,255,255, .9);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-			.loading-bar-spinner .spinner-icon{
-
 			}
 			.btn{
 				
