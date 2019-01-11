@@ -11,7 +11,7 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
 	}
 
 	if (typeof(Storage) !== "undefined") {
-		if(localStorage.getItem("remember_me") == "1"){
+		if(localStorage.getItem("remember_me")){
 			ctrl.rememberMeValue = localStorage.getItem('remember_me');
 			if(localStorage.getItem('username') && localStorage.getItem('token')){
 				var loginCredentials = [{
@@ -37,7 +37,7 @@ feUserLogIn.controller('Ctrl_feUserLogIn', function(auth, userSession, $rootScop
 				ctrl.sessionCheck();
 			}
 		}
-		else if(localStorage.getItem("remember_me") != "1"){
+		else if(!localStorage.getItem("remember_me")){
 			ctrl.sessionCheck();
 		}
 	}
