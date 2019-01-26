@@ -84,7 +84,7 @@ if(!empty($data->username) && empty($data->spam_protection)){
 				       	}
 				       	else{
 				        	echo '{';
-		            			echo '"message": "0"'; // Unsuccessful (Server Problem)
+		            			echo '"message": "1"'; // Unsuccessful (Server Problem)
 				       		echo '}';
 				       		die();
 			        	}

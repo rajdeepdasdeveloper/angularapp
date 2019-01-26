@@ -149,4 +149,24 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
       ctrl.status = "";
     }
 
+    ctrl.cancelForgotPassword = function(){
+    	$http({
+            method : "JSON",
+            data : "1",
+            url : $rootScope.apiURL + "sessionManagement/clearAllSessions.php",
+            headers: {'Content-Type' : 'application/json'}
+        })
+        .then(function success(response) {
+            if(response.data.message == "1"){
+                window.location = $rootScope.baseUrl + "sign-in";
+            }
+            else if(response.data.message == "0"){
+            	window.location = $rootScope.baseUrl + "forgot-password";
+            }
+        }, function error(response) {
+            alert("Something went wrong. Please check your internet connction and try again.");
+            //window.location = $rootScope.baseUrl + "sign-in";
+        });
+    }
+
 });
