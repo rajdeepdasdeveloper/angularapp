@@ -72,8 +72,8 @@ if(!empty($data->username) && empty($data->spam_protection)){
 			        $email_message .= $token;
 			        $email_to = $userBasicData['username'];
 			        $email_subject = "Password Recovery";
-			        $headers = 'From: '. "angularapp.nickosys" ."\r\n".
-			        'Reply-To: '. "angularapp.nickosys" ."\r\n" .
+			        $headers = 'From: '. "angularapp.dev.projects.nickosys" ."\r\n".
+			        'Reply-To: '. "angularapp.dev.projects.nickosys" ."\r\n" .
 			        'X-Mailer: PHP/' . phpversion();
 			        if($_SESSION['settingsToken']){
 			        	if(@mail($email_to, $email_subject, $email_message, $headers)){
