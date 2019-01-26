@@ -165,7 +165,7 @@ feUserRegister.controller('Ctrl_forgotPassword', function($rootScope, auth, user
             }
         }, function error(response) {
             alert("Something went wrong. Please check your internet connction and try again.");
-            //window.location = $rootScope.baseUrl + "sign-in";
+            window.location = $rootScope.baseUrl + "sign-in";
         });
     }
 
