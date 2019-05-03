@@ -27,13 +27,16 @@ activateAccount.controller('Ctrl_activateAccount', function($scope, auth, userSe
 	    .then(function success(response) {
 	      	if(response.data){
 				if(response.data){
-				if(response.data.message == "5"){ // Code Sent successfully
+				if(response.data.message == "5"){ // Code Re-Sent Successfully
 				 	ctrl.status = response.data.message;
+				}
+				else if(response.data.message == "2"){ // Username Already active
+					ctrl.status = response.data.message;
 				}
 				else if(response.data.message == "3"){ // Username Doesnt Exists
 					ctrl.status = response.data.message;
 				}
-				else if(response.data.message == "4"){
+				else if(response.data.message == "4"){ // Server error
 					alert("Something went wrong, must be a server error!!!")
 					$location.url('/sign-in');
 				}

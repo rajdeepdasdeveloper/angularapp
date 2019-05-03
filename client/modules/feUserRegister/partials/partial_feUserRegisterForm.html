@@ -3,7 +3,7 @@
 		<input id="first_name" name="first_name" class="form-control" ng-model="CtrlAs_feUserRegister.first_name" type="text" placeholder="Enter first name" ng-minlength="2" ng-maxlength="25" ng-pattern="/^[a-zA-Z]*$/" required>
 		<p class="error" ng-if="feUserRegistrationForm.first_name.$error.minlength && !feUserRegistrationForm.first_name.$error.pattern" >First name is too short.</p>
         <p class="error" ng-if="feUserRegistrationForm.first_name.$error.maxlength && !feUserRegistrationForm.first_name.$error.pattern" >First name is too long.</p>
-        <p class="error" ng-if="feUserRegistrationForm.first_name.$error.pattern && !feUserRegistrationForm.first_name.$error.minlength && !feUserRegistrationForm.first_name.$error.minlength">Invalid first name.</p>
+        <p class="error" ng-if="feUserRegistrationForm.first_name.$error.pattern && !feUserRegistrationForm.first_name.$error.maxlength && !feUserRegistrationForm.first_name.$error.minlength">Invalid first name.</p>
         <p class="error" ng-if="!feUserRegistrationForm.first_name.$pristine && feUserRegistrationForm.first_name.$error.required">First name is required.</p>
 	</div>
 	<div class="hidden">
@@ -13,17 +13,19 @@
 		<input id="last_name" name="last_name" class="form-control" ng-model="CtrlAs_feUserRegister.last_name" type="text" placeholder="Enter last name" ng-minlength="2" ng-maxlength="25" ng-pattern="/^[a-zA-Z]*$/" required>
 		<p class="error" ng-if="feUserRegistrationForm.last_name.$error.minlength && !feUserRegistrationForm.last_name.$error.pattern" >Last name is too short.</p>
         <p class="error" ng-if="feUserRegistrationForm.last_name.$error.maxlength && !feUserRegistrationForm.last_name.$error.pattern" >Last name is too long.</p>
-        <p class="error" ng-if="feUserRegistrationForm.last_name.$error.pattern && !feUserRegistrationForm.last_name.$error.minlength && !feUserRegistrationForm.last_name.$error.minlength">Invalid last name.</p>
+        <p class="error" ng-if="feUserRegistrationForm.last_name.$error.pattern && !feUserRegistrationForm.last_name.$error.minlength && !feUserRegistrationForm.last_name.$error.maxlength">Invalid last name.</p>
         <p class="error" ng-if="!feUserRegistrationForm.last_name.$pristine && feUserRegistrationForm.last_name.$error.required">First name is required.</p>
 	</div>
 	<div class="form-group">
-		<input id="email" name="email" class="form-control" ng-model="CtrlAs_feUserRegister.email" type="email" placeholder="Enter email" autocomplete="off" required>
-		<p ng-show="feUserRegistrationForm.email.$invalid && !feUserRegistrationForm.email.$pristine && !feUserRegistrationForm.email.$error.required" class="error">Enter a valid email.</p>
+		<input id="email" name="email" class="form-control" ng-model="CtrlAs_feUserRegister.email" type="email" placeholder="Enter email" autocomplete="off" ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" required>
+		<p ng-show="feUserRegistrationForm.email.$invalid && !feUserRegistrationForm.email.$pristine && !feUserRegistrationForm.email.$error.required || feUserRegistrationForm.email.$error.pattern" class="error">Enter a valid email.</p>
 		<p class="error" ng-if="!feUserRegistrationForm.email.$pristine && feUserRegistrationForm.email.$error.required">Email is required.</p>
 	</div>
 	<div class="form-group">
-		<input id="password" name="password" class="form-control" ng-model="CtrlAs_feUserRegister.password" type="password" placeholder="Enter your password" ng-attr-type="{{ CtrlAs_feUserRegister.showPassword ? 'text':'password'}}" ng-pattern="/^(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*#?&_])[A-Za-z\d$@$!%*#?&_]{8,20}$/" required>
-		<p class="error" ng-if="!feUserRegistrationForm.password.$valid">Password should be at least 8 and maximum 20 characters long and should contain one number, one lowercase character, one uppercase character, one special character and no spaces.</p>
+		<input id="password" name="password" class="form-control" ng-model="CtrlAs_feUserRegister.password" type="password" placeholder="Enter your password" ng-attr-type="{{ CtrlAs_feUserRegister.showPassword ? 'text':'password'}}"  ng-pattern="/^\S*$/" ng-minlength="8" ng-maxlength="20" required>
+		<p class="error" ng-if="feUserRegistrationForm.password.$error.pattern || feUserRegistrationForm.password.$error.maxlength || feUserRegistrationForm.password.$error.minlength">
+			Password should be at least 8 and maximum 20 characters long and should not contain spaces.
+		</p>
 	</div>
 	<div class="form-group" ng-show="feUserRegistrationForm.password.$valid">
 		<input id="rePassword" name="rePassword" class="form-control" ng-model="CtrlAs_feUserRegister.rePassword" type="password" placeholder="Re-enter your password" ng-attr-type="{{ CtrlAs_feUserRegister.showPassword ? 'text':'password'}}" match-password="CtrlAs_feUserRegister.password" required>
